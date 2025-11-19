@@ -42,6 +42,9 @@ module uart_status_reg(
         end
     end
 
-assign status_data = reg_;
+	always_comb begin
+		for(int idx = 0; idx < 12; idx = idx + 1)
+			status_data[idx] = rmask[idx] && re ? 1'b0 : reg_[idx];
+	end
 
 endmodule: uart_status_reg

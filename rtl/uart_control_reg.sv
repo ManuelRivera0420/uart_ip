@@ -29,11 +29,12 @@ module uart_control_reg(
 
     always_ff@(posedge clk, negedge arst_n) begin
         if(!arst_n) begin
-				reg_[0] <= 1'b1;
-            reg_[2:1] <= 2'b11;
-				reg_[5:3] <= 3'b000;
-				reg_[18:10] <= 9'd0;
-				reg_[9:6] <= 4'd7;
+			reg_[0] <= 1'b1; // Active by default
+			reg_[2:1] <= 2'b11; // 8-bits packet by default
+			reg_[5] <= 1'b0; // 1 stop bit by default
+			reg_[4:3] <= 3'b000; // no parity bit by default
+			reg_[18:10] <= 9'd0; // tnsm flag and tnsm data zero by default
+			reg_[9:6] <= 4'd7; // 9600 baud rate by default
         end else begin
             if(we) begin
                 for(int idx = 0; idx <= 18; idx = idx + 1)

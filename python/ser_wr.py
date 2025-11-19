@@ -12,20 +12,20 @@ except:
 	print("Could not connect to uart slave")
 
 def write_mem(addr,data):
-	COMMAND = 0
+	COMMAND = 1
 	v = struct.pack('B', COMMAND)
 	ser.write(v)
-	v = struct.pack('I',addr)
+	v = struct.pack('B',addr)
 	ser.write(v)
 	v = struct.pack('I',data)
 	ser.write(v)
 	print("wrote " + "{:08X}".format(data) )
 
 def read_mem(addr):
-	COMMAND = 1
+	COMMAND = 0
 	v = struct.pack('B', COMMAND)
 	ser.write(v)
-	v = struct.pack('I',addr)
+	v = struct.pack('B',addr)
 	ser.write(v)
 	v = struct.pack('I',0)
 	ser.write(v)
@@ -34,9 +34,21 @@ def read_mem(addr):
 	data_received = int.from_bytes(val, "little")
 	print("read {:08X}".format(data_received))
 
-COMMAND = 155
-v = struct.pack('B', COMMAND)
-ser.write(v)
+#COMMAND = 1
+#v = struct.pack('B', COMMAND)
+#ser.write(v)
+
+#addr = 15
+#v = struct.pack('B',addr)
+#ser.write(v)
+
+#data = 0xCB2A0953
+#v = struct.pack('I',data)
+#ser.write(v)
+
+
+write_mem(0xF8, 0xCB2A0921)
+read_mem(0xF8)
 
 #for i in range(0,10): # Do 10 random data writes to address 0-9
 #	write_mem(i,randint(0,100))

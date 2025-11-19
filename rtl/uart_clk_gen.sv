@@ -74,7 +74,7 @@ always_ff@(posedge clk, negedge arst_n) begin
     end
 end
 
-assign tx_clk_en = tx_clk_cnt == MAX_COUNTER[7];
-assign rx_clk_en = rx_clk_cnt == (MAX_COUNTER[7]>>5);
+assign tx_clk_en = tx_clk_cnt == MAX_COUNTER[baud_rate];
+assign rx_clk_en = rx_clk_cnt == (MAX_COUNTER[baud_rate]>>5);
 
 endmodule

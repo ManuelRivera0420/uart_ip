@@ -9,7 +9,6 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module uart_ip_memory_mapped #(parameter NUM_BYTES_DATA = 4, parameter NUM_BYTES_ADDRESS = 1)(
-	output wire [31:0] debug,
 	input clk,
 	input arst_n,
 	// Memory related signals
@@ -24,8 +23,6 @@ module uart_ip_memory_mapped #(parameter NUM_BYTES_DATA = 4, parameter NUM_BYTES
 	input rx,
 	output tx
 );
-
-	assign debug = st_reg_rdata;
 
 	wire ctl_reg_we;
 	wire [18:0] ctl_reg_wdata;
