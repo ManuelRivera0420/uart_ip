@@ -94,11 +94,11 @@ module uart_ip_memory_mapped_ctrl_fsm #(parameter NUM_BYTES_DATA = 4, parameter 
 
 			mem_re <= 1'b0;
 			st_reg_re <= 1'b0;
-			st_reg_rmask <= 11'd0;
+			st_reg_rmask <= 12'd0;
 
 			mem_we <= 1'b0;
-			mem_wdata <= {NUM_BYTES_DATA*8{1'b0}};
-			mem_waddr <= {NUM_BYTES_ADDRESS*8{1'b0}};
+			//mem_wdata <= {NUM_BYTES_DATA*8{1'b0}};
+			//mem_waddr <= {NUM_BYTES_ADDRESS*8{1'b0}};
 
 			case(state)
 

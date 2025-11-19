@@ -16,13 +16,18 @@ module uart_debug(
 	localparam NUM_BYTES_DATA = 4;
 	localparam NUM_BYTES_ADDRESS = 1;
 
+	logic mem_we;
 	logic [NUM_BYTES_DATA*8-1:0] mem_wdata;
 	logic [NUM_BYTES_ADDRESS*8-1:0] mem_waddr;
 	logic mem_re;
 	logic [NUM_BYTES_ADDRESS*8-1:0] mem_raddr;
 	logic [NUM_BYTES_DATA*8-1:0] mem_rdata;
+	logic mem_rdy;
+	
+	assign mem_rdy = 1'b1;
+	assign mem_rdata = 32'hFCD09A23;
 
-  wire [31:0] seg_data;
+  logic [31:0] seg_data;
   // Debug
   de2_115_7seg de2_115_7seg_i(
   .oSEG0(HEX0),
@@ -35,8 +40,19 @@ module uart_debug(
   .oSEG7(HEX7),
   .iDIG(seg_data) );
 
+  always_ff@(posedge clk, negedge arst_n) begin
+	if(!arst_n) begin
+		seg_data <= 0;
+	end else begin
+		if(mem_we)
+			seg_data <= {mem_wdata, mem_waddr};
+	end
+  end
+
+//assign seg_data = mem_wdata;
+  
 uart_ip_memory_mapped #(NUM_BYTES_DATA, NUM_BYTES_ADDRESS) uart_ip_memory_mapped_i (
-	.debug(seg_data),
+//	.debug(seg_data),
 	.clk(clk),
 	.arst_n(arst_n),
 	// Memory related signals
