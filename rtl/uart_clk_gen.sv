@@ -42,7 +42,7 @@ parameter int MAX_COUNTER [16] = '{
 logic [$clog2(MAX_COUNTER[0])-1:0] tx_clk_cnt;
 
 // Variables for generating receiver clocking enabling signal (16x baud rate) //
-logic [$clog2(MAX_COUNTER[0]>>5)-1:0] rx_clk_cnt;
+logic [$clog2(MAX_COUNTER[0]>>1)-1:0] rx_clk_cnt;
 
 always_ff@(posedge clk, negedge arst_n) begin
     if(~arst_n) begin
@@ -75,6 +75,6 @@ always_ff@(posedge clk, negedge arst_n) begin
 end
 
 assign tx_clk_en = tx_clk_cnt == MAX_COUNTER[baud_rate];
-assign rx_clk_en = rx_clk_cnt == (MAX_COUNTER[baud_rate]>>5);
+assign rx_clk_en = rx_clk_cnt == (MAX_COUNTER[baud_rate]>>4);
 
 endmodule
