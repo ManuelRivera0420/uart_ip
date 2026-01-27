@@ -45,4 +45,9 @@ uart_ip uart_ip_i(
 .tx(tx)
 );
 
+initial begin
+    $shm_open("shm_db");
+    $shm_probe("ASMTR");
+end
+
 endmodule;
