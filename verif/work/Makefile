@@ -1,4 +1,4 @@
-src=uart_clk_gen
+src=uart_ip
 testname=test
 verbosity=UVM_MEDIUM
 .DEFAULT_GOAL := help
