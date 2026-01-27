@@ -24,6 +24,8 @@ initial begin
     @(posedge clk)
     repeat(16) begin
         bit_time = 1s / (clk_gen_i.BAUD_RATES[baud_rate]);
+        #bit_time;
+        std::randomize(baud_rate);
         #(5*bit_time);
         @(posedge clk);
         baud_rate = baud_rate + 1'b1;
