@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: Mifral
-// Engineer: Miguel Rivera
+// Company:
+// Engineer:
 // 
 // Design Name: uart_ip_memory_mapped
 // Module Name: uart_ip_memory_mapped

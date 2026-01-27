@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////////
-// Company: Mifral
-// Engineer: Miguel Rivera
+// Company: 
+// Engineer:
 // 
 // Design Name: uart_ip
 // Module Name: uart_ip_memory_mapped_ctrl_fsm

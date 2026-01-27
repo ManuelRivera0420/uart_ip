@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: Mifral
-// Engineer: Miguel Angel Rivera Acosta
+// Company:
+// Engineer:
 // 
 // Design Name: uart_ip
 // Module Name: clk_gen

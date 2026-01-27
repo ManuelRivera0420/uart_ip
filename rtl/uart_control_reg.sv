@@ -1,7 +1,6 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: Mifral
-// Engineer: Miguel Angel Rivera Acosta
+// Engineer:
 // 
 // Design Name: uart_ip
 // Module Name: uart_control_reg
