@@ -1,0 +1,63 @@
+
+#
+# Mnemonic Maps
+#
+mmap new  -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+array unset createdGroup
+array set createdGroup {}
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.arst_n}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.ctl_reg_rdata[18:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.ctl_reg_wdata[18:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.ctl_reg_we}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.ctl_reg_wmask[18:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.rx}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.tx}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.st_reg_rdata[11:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.st_reg_rmask[11:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.st_reg_re}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.state[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.data[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.uart_ip_i.uart_recv_i.state[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.uart_ip_i.uart_recv_i.data_r[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {uart_ip_tb.uart_ip_i.recv_busy}]}
+	} ]]
+
+waveform xview limits 0 2050ns
