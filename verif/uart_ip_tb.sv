@@ -18,8 +18,14 @@ always #10ns clk = ~clk;
 assign #50ns arst_n = 1'b1;
 
 initial begin
+    ctl_reg_wdata = '0;
+    ctl_reg_wmask = '0;
+    ctl_reg_we = 1'b0;
     wait(arst_n);
     @(posedge clk);
+    ctl_reg_wdata = {8'd43, 1'b1, 4'd7, 1'b0, 2'b00, 2'b11, 1'b1};
+    ctl_reg_wmask = {19{1'b1}};
+    ctl_reg_we = 1'b1;
     #10ms;
     $finish;
 end
