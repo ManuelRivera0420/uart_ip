@@ -1,0 +1,23 @@
++incdir+/home/chuy/proxima/fv
+
+# Definitions for RTL configuration
+../../rtl/defines.svh
+
+# Formal properties macros
+./property_defines.svh
+
+../../rtl/datapath/shifting_cell.sv
+../../rtl/datapath/shifting_parallel_cell.sv
+../../rtl/datapath/shifting_row.sv
+../../rtl/datapath/shifting_parallel_row.sv
+../../rtl/datapath/data_matrix.sv
+../../rtl/datapath/data_shifter.sv
+../../rtl/datapath/data_feeder.sv
+
+./fv_shifting_cell.sv
+./fv_shifting_parallel_cell.sv
+./fv_shifting_row.sv
+./fv_shifting_parallel_row.sv
+./fv_data_matrix.sv
+./fv_data_shifter.sv
+./fv_data_feeder.sv
