@@ -12,22 +12,10 @@ interface uart_ip_bfm(input clk, input arst_n);
 	localparam STOP_TYPE_DEFAULT = 1'b0; // 1 stop bit by default
 	event drive_ev;
 	event sample_ev;
-	parameter int BAUD_RATES [16] = '{200,
-																		300,
-																		600,
-																		1200,
-																		1800,
-																		2400,
-																		4800,
-																		9600,
-																		19200,
-																		28800,
-																		38400,
-																		57600,
-																		76800,
-																		115200,
-																		230400,
-																		460800};
+	parameter int BAUD_RATES [16] = '{200, 300, 600, 1200, 1800, 2400, 4800, 9600, 19200, 28800, 38400, 57600,
+		76800, 115200, 230400, 460800};
+
+
 	int total_packet_bits;
 	int frame_bits;
 	int timesteps_per_toggle;

@@ -12,37 +12,37 @@ mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor or
 array unset createdGroup
 array set createdGroup {}
 set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.arst_n}]}
+	{[format {uart_ip_tb.intf.arst_n}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.clk}]}
+	{[format {uart_ip_tb.intf.clk}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.ctl_reg_rdata[18:0]}]}
+	{[format {uart_ip_tb.intf.ctl_reg_rdata[18:0]}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.ctl_reg_wdata[18:0]}]}
+	{[format {uart_ip_tb.intf.ctl_reg_wdata[18:0]}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.ctl_reg_we}]}
+	{[format {uart_ip_tb.intf.ctl_reg_we}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.ctl_reg_wmask[18:0]}]}
+	{[format {uart_ip_tb.intf.ctl_reg_wmask[18:0]}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.rx}]}
+	{[format {uart_ip_tb.intf.rx}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.tx}]}
+	{[format {uart_ip_tb.intf.st_reg_rdata[11:0]}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.st_reg_rdata[11:0]}]}
+	{[format {uart_ip_tb.intf.st_reg_re}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.st_reg_rmask[11:0]}]}
+	{[format {uart_ip_tb.intf.st_reg_rmask[11:0]}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.st_reg_re}]}
+	{[format {uart_ip_tb.intf.tx}]}
 	} ]]
 set id [waveform add -signals [subst  {
 	{[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.state[2:0]}]}
@@ -51,13 +51,10 @@ set id [waveform add -signals [subst  {
 	{[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.data[7:0]}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.uart_ip_i.uart_recv_i.state[2:0]}]}
-	} ]]
-set id [waveform add -signals [subst  {
 	{[format {uart_ip_tb.uart_ip_i.uart_recv_i.data_r[7:0]}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.uart_ip_i.recv_busy}]}
+	{[format {uart_ip_tb.uart_ip_i.uart_recv_i.state[2:0]}]}
 	} ]]
 
-waveform xview limits 0 2050ns
+waveform xview limits 0 2000ns
