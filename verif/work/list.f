@@ -8,4 +8,5 @@
     ../../rtl/uart_ip.sv
 
 # ============================ verification
+    ../uart_ip_interface.sv
     ../uart_ip_tb.sv
