@@ -22,32 +22,16 @@ logic [11:0] st_reg_rdata;
 logic rx;
 logic tx;
 
-logic rx_tx_wire;
-
-assign rx = rx_tx_wire;
-assign tx = rx_tx_wire;
-
+assign rx = tx;
+assign st_reg_rmask = '1;
+assign st_reg_re = 1'b1;
 ////////////////////////////////////// BFM ///////////////////////////	
-
-localparam COMMAND_WRITE = 8'h01;
-localparam COMMAND_READ = 8'h00;
-localparam BAUD_RATE_DEFAULT = 4'b0111; // 9600 baud rate by default
-localparam FRAME_TYPE_DEFAULT = 2'b11; // 8-bits packet by default
-localparam PARITY_TYPE_DEFAULT = 3'b000; // no parity bit by default
-localparam STOP_TYPE_DEFAULT = 1'b0; // 1 stop bit by default
-event drive_ev;
-event sample_ev;
-	
 /*
 modport user_tile_modport(
 	input ctl_reg_we, ctl_reg_wdata, ctl_reg_wmask, st_reg_re, st_reg_rmask, rx,
 	output ctl_reg_rdata, st_reg_rdata, tx
 );
 */
-
-function bit get_tx_bit();
-    return tx;
-endfunction
 
 function logic [18:0] read_ctl_reg();
     return ctl_reg_rdata;
@@ -133,26 +117,26 @@ task tnsm_enable(bit tnsm_en);
 endtask
 
 /////////////////////////////////////////////////////// 
+/*
+int total_packet_bits;
+int frame_bits;
+int timesteps_per_toggle;
+logic [3:0] baud_rate;
+logic [1:0] frame_type;
+logic [1:0] parity_type;
+logic stop_type;
 
-	int total_packet_bits;
-	int frame_bits;
-	int timesteps_per_toggle;
-	logic [3:0] baud_rate;
-	logic [1:0] frame_type;
-	logic [1:0] parity_type;
-	logic stop_type;
-
-	task initialize();
-		baud_rate <= BAUD_RATE_DEFAULT;
-		frame_type <= FRAME_TYPE_DEFAULT;
-		parity_type <= PARITY_TYPE_DEFAULT;
-		stop_type <= STOP_TYPE_DEFAULT;
-		tx <= 1'b1;
-	endtask
+task initialize();
+	baud_rate <= BAUD_RATE_DEFAULT;
+	frame_type <= FRAME_TYPE_DEFAULT;
+	parity_type <= PARITY_TYPE_DEFAULT;
+	stop_type <= STOP_TYPE_DEFAULT;
+	tx <= 1'b1;
+endtask
 	
 	function calculate_packet_bits();
-		total_packet_bits = 1/*start bit*/;
-		total_packet_bits = total_packet_bits + stop_type ? 2 : 1; /*stop bits*/
+		total_packet_bits = 1 //startbit;
+		total_packet_bits = total_packet_bits + stop_type ? 2 : 1; //stop_bits
 		case(frame_type)
 			2'b00: frame_bits = 5;
 			2'b01: frame_bits = 6;
@@ -160,15 +144,15 @@ endtask
 			2'b11: frame_bits = 8;
 			default: frame_bits = frame_bits; // should never happen
 		endcase
-		total_packet_bits = total_packet_bits + frame_bits/* * 2*/; // multiplied by 2, 1 for posedge, 1 for negedge
+		total_packet_bits = total_packet_bits + frame_bits; // multiplied by 2, 1 for posedge, 1 for negedge
 		timesteps_per_toggle = 1_000_000_000/BAUD_RATES[baud_rate]; // assuming timestep of 1ns
 	endfunction
 
-		task gen_drive_ev();
+	task gen_drive_ev();
 		calculate_packet_bits();
 		repeat(total_packet_bits) begin // Every transaction requires 1 (start bit), frame_type data bits, stop_type bits toggles
-			->drive_ev;
-			repeat(timesteps_per_toggle) #1;
+		->drive_ev;
+		repeat(timesteps_per_toggle) #1;
 		end
 	endtask
 	
@@ -187,7 +171,7 @@ endtask
 		calculate_packet_bits();
 		recv_data = new[total_packet_bits];
 		repeat(total_packet_bits) begin
-			wait(clk_sample_ev.triggered);
+			wait(sample_ev.triggered);
 			for(int i = 0; i < total_packet_bits; i++)
 				recv_data[i] = i == (total_packet_bits-1) ? rx : recv_data[i+1]; // data is shifted from msb to lsb
 		end
@@ -203,7 +187,7 @@ endtask
 			data_tmp[i+1] = data[i];
 		end
 		repeat(total_packet_bits) begin
-			wait(clk_drive_ev.triggered);
+			wait(drive_ev.triggered);
 			tx = data_tmp[0];
 			for(int i = 0; i < (total_packet_bits-1); i++)
 				data_tmp[i] = data_tmp[i+1];
@@ -211,7 +195,8 @@ endtask
 	endtask
 
 	task transfer(logic [7:0] data);
-		logic data_tmp [frame_bits];
+		logic data_tmp [];
+		data_tmp = new[frame_bits];
 		for(int i = 0; i < frame_bits; i++) data_tmp[i] = data[i];
     		repeat(10) @(posedge clk);
 		fork
@@ -224,4 +209,5 @@ endtask
 	always begin
 		wait_recv_data();
 	end
+*/
 endinterface
