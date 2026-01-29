@@ -58,7 +58,7 @@ interface uart_ip_bfm(input clk, input arst_n);
 		timesteps_per_toggle = 1_000_000_000/BAUD_RATES[baud_rate]; // assuming timestep of 1ns
 	endfunction
 
-	task gen_drive_ev();
+		task gen_drive_ev();
 		calculate_packet_bits();
 		repeat(total_packet_bits) begin // Every transaction requires 1 (start bit), frame_type data bits, stop_type bits toggles
 			->drive_ev;
@@ -107,12 +107,12 @@ interface uart_ip_bfm(input clk, input arst_n);
 	task transfer(logic [7:0] data);
 		logic data_tmp [frame_bits];
 		for(int i = 0; i < frame_bits; i++) data_tmp[i] = data[i];
-    repeat(10) @(posedge clk);
+    		repeat(10) @(posedge clk);
 		fork
 		  gen_drive_ev();
 		  transmit(data_tmp);
 		join_none
-    repeat(10) @(posedge clk);
+    		repeat(10) @(posedge clk);
 	endtask
 	
 	always begin
