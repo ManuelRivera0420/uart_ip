@@ -11,50 +11,216 @@ mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor or
 
 array unset createdGroup
 array set createdGroup {}
+#
+# Groups
+#
+if {[catch {group get -using [list {RECEIVER}]}]} {
+set createdGroup([list {RECEIVER}]) 1
+catch {group new -name RECEIVER -overlay 0}
+}
+if {[catch {group get -using [list {CTL_REG}]}]} {
+set createdGroup([list {CTL_REG}]) 1
+catch {group new -name CTL_REG -overlay 0}
+}
+if {[catch {group get -using [list {Group 3}]}]} {
+set createdGroup([list {Group 3}]) 1
+catch {group new -name {Group 3} -overlay 0}
+}
+if {[catch {group get -using [list {Group 4}]}]} {
+set createdGroup([list {Group 4}]) 1
+catch {group new -name {Group 4} -overlay 0}
+}
+if {[catch {group get -using [list {TRANSMITTER}]}]} {
+set createdGroup([list {TRANSMITTER}]) 1
+catch {group new -name TRANSMITTER -overlay 0}
+}
+if {[catch {group get -using [list {UART_CLK}]}]} {
+set createdGroup([list {UART_CLK}]) 1
+catch {group new -name UART_CLK -overlay 0}
+}
+if {[catch {group get -using [list {Group 7}]}]} {
+set createdGroup([list {Group 7}]) 1
+catch {group new -name {Group 7} -overlay 0}
+}
+if {[catch {group get -using [list {INTERFACE}]}]} {
+set createdGroup([list {INTERFACE}]) 1
+catch {group new -name INTERFACE -overlay 0}
+}
+if {[catch {group get -using [list {ASSERTIONS}]}]} {
+set createdGroup([list {ASSERTIONS}]) 1
+catch {group new -name ASSERTIONS -overlay 0}
+}
+if {[catch {group get -using [list {TESTBENCH}]}]} {
+set createdGroup([list {TESTBENCH}]) 1
+catch {group new -name TESTBENCH -overlay 0}
+}
+if {[info exists createdGroup([list {RECEIVER}])]} {
+group using RECEIVER
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_recv_i.data_r[7:0]}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_recv_i.state[2:0]}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_recv_i.rx}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_recv_i.rx_negedge_det}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_recv_i.bitcnt[3:0]}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_recv_i.busy}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_recv_i.data[7:0]}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_recv_i.ovsample_cnt[5:0]}]} ]
+}
+
+if {[info exists createdGroup([list {CTL_REG}])]} {
+group using CTL_REG
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {uart_ip_tb.intf.ctl_reg_rdata[18:0]}]} ] \
+    [subst  {[format {uart_ip_tb.intf.ctl_reg_wdata[18:0]}]} ] \
+    [subst  {[format {uart_ip_tb.intf.ctl_reg_we}]} ] \
+    [subst  {[format {uart_ip_tb.intf.ctl_reg_wmask[18:0]}]} ] \
+    [subst  {[format {uart_ip_tb.intf.st_reg_rdata[11:0]}]} ] \
+    [subst  {[format {uart_ip_tb.intf.st_reg_re}]} ] \
+    [subst  {[format {uart_ip_tb.intf.st_reg_rmask[11:0]}]} ]
+}
+
+if {[info exists createdGroup([list {Group 3}])]} {
+group using {Group 3}
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.active}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.bitcnt[3:0]}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.busy}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.data[7:0]}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.tnsm_clk_en}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.state[2:0]}]} ]
+}
+
+if {[info exists createdGroup([list {Group 4}])]} {
+group using {Group 4}
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    {Group 3}
+}
+
+if {[info exists createdGroup([list {TRANSMITTER}])]} {
+group using TRANSMITTER
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.active}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.bitcnt[3:0]}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.busy}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.data[7:0]}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.state[2:0]}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.tnsm_clk_en}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.tx}]} ]
+}
+
+if {[info exists createdGroup([list {UART_CLK}])]} {
+group using UART_CLK
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {uart_ip_tb.uart_ip_i.clk_gen_i.active}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.clk_gen_i.tx_clk_en}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.clk_gen_i.rx_clk_en}]} ] \
+    [subst  {[format {uart_ip_tb.uart_ip_i.clk_gen_i.baud_rate[3:0]}]} ]
+}
+
+if {[info exists createdGroup([list {Group 7}])]} {
+group using {Group 7}
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    UART_CLK
+}
+
+if {[info exists createdGroup([list {INTERFACE}])]} {
+group using INTERFACE
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {uart_ip_tb.intf.tx_test}]} ] \
+    [subst  {[format {uart_ip_tb.intf.rx_test}]} ] \
+    [subst  {[format {uart_ip_tb.intf.timesteps_per_toggle}]} ] \
+    [subst  {[format {uart_ip_tb.intf.total_packet_bits}]} ] \
+    [subst  {[format {uart_ip_tb.intf.frame_bits}]} ]
+}
+
+if {[info exists createdGroup([list {ASSERTIONS}])]} {
+group using ASSERTIONS
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {uart_ip_tb.UART_RECV_ast_data_timing}]} ] \
+    [subst  {[format {uart_ip_tb.UART_RECV_ast_receiver_busy_when_not_idle}]} ] \
+    [subst  {[format {uart_ip_tb.UART_RECV_ast_receiver_not_starting_when_active_is_low}]} ] \
+    [subst  {[format {uart_ip_tb.UART_RECV_ast_receiver_starts_when_active_and_negedge_detected}]} ] \
+    [subst  {[format {uart_ip_tb.UART_TX_ast_tx_high_when_stop_bit_state}]} ] \
+    [subst  {[format {uart_ip_tb.UART_TX_ast_tx_idle}]} ] \
+    [subst  {[format {uart_ip_tb.UART_TX_ast_tx_idle_when_active_is_low}]} ] \
+    [subst  {[format {uart_ip_tb.UART_TX_ast_tx_startbit}]} ] \
+    [subst  {[format {uart_ip_tb.__assert_1}]} ] \
+    [subst  {[format {uart_ip_tb.__assert_2}]} ]
+}
+
+if {[info exists createdGroup([list {TESTBENCH}])]} {
+group using TESTBENCH
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {uart_ip_tb.data_in[7:0]}]} ] \
+    [subst  {[format {uart_ip_tb.data_tmp[7:0]}]} ] \
+    [subst  {[format {uart_ip_tb.bit_cycles}]} ] \
+    [subst  {[format {uart_ip_tb.bit_time}]} ] \
+    [subst  {[format {uart_ip_tb.baud_rate[3:0]}]} ]
+}
+
 set id [waveform add -signals [subst  {
 	{[format {uart_ip_tb.intf.arst_n}]}
 	} ]]
 set id [waveform add -signals [subst  {
 	{[format {uart_ip_tb.intf.clk}]}
 	} ]]
-set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.intf.ctl_reg_rdata[18:0]}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.intf.ctl_reg_wdata[18:0]}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.intf.ctl_reg_we}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.intf.ctl_reg_wmask[18:0]}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.intf.rx}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.intf.st_reg_rdata[11:0]}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.intf.st_reg_re}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.intf.st_reg_rmask[11:0]}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.intf.tx}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.state[2:0]}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.uart_ip_i.uart_tnsm_i.data[7:0]}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.uart_ip_i.uart_recv_i.data_r[7:0]}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {uart_ip_tb.uart_ip_i.uart_recv_i.state[2:0]}]}
-	} ]]
 
-waveform xview limits 0 2000ns
+set groupId0 [waveform add -groups CTL_REG]
+waveform hierarchy collapse $groupId0
+
+
+set groupId0 [waveform add -groups RECEIVER]
+waveform hierarchy collapse $groupId0
+
+
+set groupId0 [waveform add -groups TRANSMITTER]
+waveform hierarchy collapse $groupId0
+
+
+set groupId0 [waveform add -groups UART_CLK]
+waveform hierarchy collapse $groupId0
+
+
+set groupId0 [waveform add -groups INTERFACE]
+waveform hierarchy collapse $groupId0
+
+
+set groupId0 [waveform add -groups ASSERTIONS]
+waveform hierarchy collapse $groupId0
+
+
+set groupId0 [waveform add -groups TESTBENCH]
+waveform hierarchy collapse $groupId0
+
+
+waveform xview limits 73635710ns 77731710ns

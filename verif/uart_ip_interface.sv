@@ -25,8 +25,8 @@ logic tx;
 logic tx_test;
 logic rx_test;
 
-assign rx_test = tx;
-assign rx = tx_test;
+//assign rx_test = tx;
+//assign rx = tx_test;
 
 assign st_reg_rmask = '1;
 assign st_reg_re = 1'b1;
@@ -236,23 +236,24 @@ endtask
 logic start_bit;
 task transmit(input logic data [], input int frame_bits);
     logic data_tmp [];
-    logic start_bit = 1'b0;
+    start_bit = 1'b0;
     calculate_packet_bits();
     data_tmp = new[total_packet_bits];
-    data_tmp = '{default:'1};
+    foreach (data_tmp[i])
+	data_tmp[i] = 1'b1;
     data_tmp[0] = 1'b0; // start bit
     for(int i = 0; i < frame_bits; i++) begin
         data_tmp[i+1] = data[i];
     end
     repeat(total_packet_bits) begin
-        tx_test = data_tmp[0];
-        if(start_bit)
-            repeat(1_000_000_000/BAUD_RATES[baud_rate]) #1;
-        else
-            repeat((1_000_000_000/BAUD_RATES[baud_rate])/2) #1;
-        start_bit = 1'b1;
+	if(start_bit)
+           repeat(1_000_000_000/BAUD_RATES[baud_rate]) #1;
+   	else
+           repeat((1_000_000_000/BAUD_RATES[baud_rate])/2) #1;
+	tx_test = data_tmp[0];
+	start_bit = 1'b1;
 	for (int i = 0; i < total_packet_bits-1; i++)
-	  data_tmp[i] = data_tmp[i+1];
+	   data_tmp[i] = data_tmp[i+1];
     end
 endtask
 

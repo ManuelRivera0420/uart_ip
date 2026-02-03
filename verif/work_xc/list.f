@@ -1,5 +1,6 @@
+    ../property_defines.svh
 # ============================ rtl
-	../../rtl/uart_clk_gen.sv
+    ../../rtl/uart_clk_gen.sv
     ../../rtl/uart_edge_detector.sv
     ../../rtl/uart_status_reg.sv
     ../../rtl/uart_control_reg.sv

@@ -30,7 +30,7 @@ localparam time HALF_BIT = BIT_TIME / 2;
 localparam int HALF_BIT_CYCLES = HALF_BIT / CLK_PERIOD;
 
 // NUMBER OF TESTS FOR THE TESTBENCH //
-localparam N_OF_TESTS = 50;
+localparam N_OF_TESTS = 150;
 
 // INTERFACE INSTANTIATION //
 uart_ip_interface intf(clk, arst_n);
@@ -168,21 +168,16 @@ end
     (`RECEIVER.state != STATE_RECV_IDLE)
 )
 
-always @(posedge clk) begin
-    if((`RECEIVER.state == STATE_RECV_IDLE) && (`RECEIVER.active) && ($rose(`RECEIVER.rx_negedge_det))) begin
-        fork
-            begin: startbit_check
-                repeat(half_bit_cycles) @(posedge clk);
-                assert (`RECEIVER.rx == 1'b0);
-            end
-        join_none
+always @(posedge `RECEIVER.busy) begin
+    if(`RECEIVER.active) begin
+	repeat(half_bit_cycles) @(posedge clk);
+	assert (`RECEIVER.rx == 1'b0);
     end
 end
 
-/*
 initial begin
     $shm_open("shm_db");
     $shm_probe("ASMTR");
 end
-*/
+
 endmodule
