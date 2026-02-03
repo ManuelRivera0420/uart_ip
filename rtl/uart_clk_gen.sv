@@ -35,7 +35,7 @@ parameter int MAX_COUNTER [16] = '{
     CLOCK_FREQUENCY/BAUD_RATES[12],
     CLOCK_FREQUENCY/BAUD_RATES[13],
     CLOCK_FREQUENCY/BAUD_RATES[14],
-    CLOCK_FREQUENCY/BAUD_RATES[15]
+    CLOCK_FREQUENCY/(BAUD_RATES[15])
 };
 
 // Variables for generating transmitter clocking enabling signal (1x baud rate) //

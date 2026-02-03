@@ -40,10 +40,10 @@ uart_tnsm_state_e state;
 // UART frame size - this only consider data and parity bit
 always_comb begin
     case(frame_type)
-        2'b00 : frame_size = 5;
-        2'b01 : frame_size = 6;
-        2'b10 : frame_size = 7;
-        2'b11 : frame_size = 8;
+        2'b00 : frame_size = 4'd5;
+        2'b01 : frame_size = 4'd6;
+        2'b10 : frame_size = 4'd7;
+        2'b11 : frame_size = 4'd8;
     endcase
 end
 
