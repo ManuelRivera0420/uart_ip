@@ -180,4 +180,6 @@ initial begin
     $shm_probe("ASMTR");
 end
 
+//bind uart_ip fv_uart_ip fv_uart_ip_i (.*);
+
 endmodule
