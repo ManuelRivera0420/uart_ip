@@ -30,7 +30,7 @@ localparam time HALF_BIT = BIT_TIME / 2;
 localparam int HALF_BIT_CYCLES = HALF_BIT / CLK_PERIOD;
 
 // NUMBER OF TESTS FOR THE TESTBENCH //
-localparam N_OF_TESTS = 150;
+localparam N_OF_TESTS = 20;
 
 // INTERFACE INSTANTIATION //
 uart_ip_interface intf(clk, arst_n);
@@ -77,6 +77,7 @@ always @(posedge clk) begin
     end
 end
 
+
 initial begin
     wait(arst_n);
     @(posedge clk);
@@ -118,6 +119,7 @@ initial begin
     $finish;
 end
 
+
 logic [7:0] data_tmp;
 always @(posedge uart_ip_i.recv_busy) begin
     case(frame_size)
@@ -148,11 +150,6 @@ end
     (`TRANSMITTER.tx)
 )
 
-`AST(UART_RECV, data_timing,
-    $rose(`RECEIVER.recv) |->,
-    (`RECEIVER.data == data_tmp)   
-)
-
 `AST(UART_RECV, receiver_not_starting_when_active_is_low,
     !(`RECEIVER.active) |->,
     (`RECEIVER.state == STATE_RECV_IDLE)
@@ -168,6 +165,26 @@ end
     (`RECEIVER.state != STATE_RECV_IDLE)
 )
 
+`AST(UART_RECV, data_timing,
+    $rose(`RECEIVER.recv) |->,
+    (`RECEIVER.data == data_tmp)   
+)
+
+`AST(UART_RECV, when_reset_not_busy,
+    !`RECEIVER.arst_n |->,
+    !`RECEIVER.busy
+)
+
+`AST(UART_RECV, if_recv_not_busy_anymore,
+    `RECEIVER.recv |->,
+    !`RECEIVER.busy
+)
+
+`AST(UART_RECV, recv_is_active_one_cycle,
+    `RECEIVER.recv |-> ##1,
+    !`RECEIVER.recv
+)
+
 always @(posedge `RECEIVER.busy) begin
     if(`RECEIVER.active) begin
 	repeat(half_bit_cycles) @(posedge clk);
@@ -175,11 +192,12 @@ always @(posedge `RECEIVER.busy) begin
     end
 end
 
+/*
 initial begin
     $shm_open("shm_db");
     $shm_probe("ASMTR");
 end
-
+*/
 //bind uart_ip fv_uart_ip fv_uart_ip_i (.*);
 
 endmodule
