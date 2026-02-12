@@ -46,11 +46,25 @@ module fv_uart_recv(
     !recv
 )
 
-`COV(uart_recv, is_busy, , busy)
+`COV(UART_RECV, is_busy, , busy)
+
+`COV(UART_RECV, recv_data, , recv)
+
+`COV(UART_RECV, was_active, , active)
+
+`COV(UART_RECV, negedge_detected, , rx_negedge_det)
+
+`COV(UART_RECV, stop_type_s, , stop_type)
 
 covergroup all_flags_cg @(posedge clk);
     option.per_instance = 1;
     busy: coverpoint busy;
+    recv: coverpoint recv;
+    active: coverpoint active;
+    rx_negedge_det: coverpoint rx_negedge_det;
+    stop_type: coverpoint stop_type;
+    frame_type: coverpoint frame_type {bins frame_type_bins [] = {[0:1]}; }
+    parity_type: coverpoint parity_type {bins parity_type_bins [] = {[0:1]}; }
 endgroup: all_flags_cg
 
 all_flags_cg all_flags_cg_i = new();

@@ -163,16 +163,20 @@ group set -overlay 0
 group set -comment {}
 group clear 0 end
 group insert \
-    [subst  {[format {uart_ip_tb.UART_RECV_ast_data_timing}]} ] \
-    [subst  {[format {uart_ip_tb.UART_RECV_ast_receiver_busy_when_not_idle}]} ] \
-    [subst  {[format {uart_ip_tb.UART_RECV_ast_receiver_not_starting_when_active_is_low}]} ] \
-    [subst  {[format {uart_ip_tb.UART_RECV_ast_receiver_starts_when_active_and_negedge_detected}]} ] \
-    [subst  {[format {uart_ip_tb.UART_TX_ast_tx_high_when_stop_bit_state}]} ] \
-    [subst  {[format {uart_ip_tb.UART_TX_ast_tx_idle}]} ] \
-    [subst  {[format {uart_ip_tb.UART_TX_ast_tx_idle_when_active_is_low}]} ] \
-    [subst  {[format {uart_ip_tb.UART_TX_ast_tx_startbit}]} ] \
+    [subst  {[format {uart_ip_tb.__assert_3}]} ] \
+    [subst  {[format {uart_ip_tb.__assert_2}]} ] \
     [subst  {[format {uart_ip_tb.__assert_1}]} ] \
-    [subst  {[format {uart_ip_tb.__assert_2}]} ]
+    [subst  {[format {uart_ip_tb.UART_TX_ast_tx_startbit}]} ] \
+    [subst  {[format {uart_ip_tb.UART_TX_ast_tx_idle_when_active_is_low}]} ] \
+    [subst  {[format {uart_ip_tb.UART_TX_ast_tx_idle}]} ] \
+    [subst  {[format {uart_ip_tb.UART_TX_ast_tx_high_when_stop_bit_state}]} ] \
+    [subst  {[format {uart_ip_tb.UART_RECV_ast_when_reset_not_busy}]} ] \
+    [subst  {[format {uart_ip_tb.UART_RECV_ast_recv_is_active_one_cycle}]} ] \
+    [subst  {[format {uart_ip_tb.UART_RECV_ast_receiver_starts_when_active_and_negedge_detected}]} ] \
+    [subst  {[format {uart_ip_tb.UART_RECV_ast_receiver_not_starting_when_active_is_low}]} ] \
+    [subst  {[format {uart_ip_tb.UART_RECV_ast_receiver_busy_when_not_idle}]} ] \
+    [subst  {[format {uart_ip_tb.UART_RECV_ast_if_recv_not_busy_anymore}]} ] \
+    [subst  {[format {uart_ip_tb.UART_RECV_ast_data_timing}]} ]
 }
 
 if {[info exists createdGroup([list {TESTBENCH}])]} {
@@ -181,11 +185,10 @@ group set -overlay 0
 group set -comment {}
 group clear 0 end
 group insert \
-    [subst  {[format {uart_ip_tb.data_in[7:0]}]} ] \
+    [subst  {[format {uart_ip_tb.expected_data[7:0]}]} ] \
     [subst  {[format {uart_ip_tb.data_tmp[7:0]}]} ] \
     [subst  {[format {uart_ip_tb.bit_cycles}]} ] \
-    [subst  {[format {uart_ip_tb.bit_time}]} ] \
-    [subst  {[format {uart_ip_tb.baud_rate[3:0]}]} ]
+    [subst  {[format {uart_ip_tb.bit_time}]} ]
 }
 
 set id [waveform add -signals [subst  {
@@ -216,11 +219,9 @@ waveform hierarchy collapse $groupId0
 
 
 set groupId0 [waveform add -groups ASSERTIONS]
-waveform hierarchy collapse $groupId0
 
 
 set groupId0 [waveform add -groups TESTBENCH]
-waveform hierarchy collapse $groupId0
 
 
 waveform xview limits 73635710ns 77731710ns

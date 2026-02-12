@@ -220,12 +220,10 @@ always @(posedge `RECEIVER.busy) begin
     end
 end
 
-/*
+
 initial begin
     $shm_open("shm_db");
     $shm_probe("ASMTR");
 end
-*/
-//bind uart_ip fv_uart_ip fv_uart_ip_i (.*);
 
 endmodule

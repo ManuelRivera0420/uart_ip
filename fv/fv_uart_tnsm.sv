@@ -27,11 +27,11 @@ module fv_uart_tnsm(
 
 `AST(UART_TX, tx_idle_when_active_is_low,
     !(active) |->,
-    (`TRANSMITTER.state == STATE_TNSM_IDLE)
+    (uart_tnsm.state == STATE_TNSM_IDLE)
 )
 
 `AST(UART_TX, tx_high_when_stop_bit_state,
-    ((`TRANSMITTER.state == STATE_TNSM_STOP1) || (`TRANSMITTER.state == STATE_TNSM_STOP2)) |->,
+    ((uart_tnsm.state == STATE_TNSM_STOP1) || (uart_tnsm.state == STATE_TNSM_STOP2)) |->,
     (tx)
 )
 
@@ -45,6 +45,25 @@ module fv_uart_tnsm(
     (busy)
 )
 
-bind uart_tnsm fv_uart_tnsm fv_uart_tnsm_inst (.*);
+`COV(UART_TX, tx_busy, , busy)
+
+`COV(UART_TX, tx_active, , active)
+
+`COV(UART_TX, tnsm_set, , tnsm)
+
+`COV(UART_TX, tnsm_stop_type, , stop_type)
+
+covergroup tx_signals_cg @(posedge clk);
+	option.per_instance = 1;
+	busy: coverpoint busy;
+	active: coverpoint active;
+	tnsm: coverpoint tnsm;
+	stop_type: coverpoint stop_type;
+endgroup: tx_signals_cg
+
+tx_signals_cg tx_signals_cg_i = new();
 
 endmodule:fv_uart_tnsm
+
+bind uart_tnsm fv_uart_tnsm fv_uart_tnsm_inst (.*);
+
