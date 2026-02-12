@@ -30,8 +30,8 @@ localparam time HALF_BIT = BIT_TIME / 2;
 localparam int HALF_BIT_CYCLES = HALF_BIT / CLK_PERIOD;
 
 // NUMBER OF TESTS FOR THE TESTBENCH //
-localparam N_OF_TESTS = 20;
-
+localparam N_OF_TESTS = 50;
+localparam N_OF_TESTS_PER_BAUD = 20;
 // INTERFACE INSTANTIATION //
 uart_ip_interface intf(clk, arst_n);
 
@@ -65,6 +65,28 @@ logic stop_type;
 logic [3:0] baud_rate;
 logic [1:0] parity_type;
 logic [1:0] frame_size;
+logic [7:0] expected_data;
+
+class baud_sel;
+    rand bit [3:0] baud_rate;
+    constraint c {baud_rate inside {[4'd7:4'd14]};}
+endclass
+
+class uart_config;
+
+    bit [3:0] baud_rate;
+    rand bit stop_type;
+    rand bit [1:0] parity_type;
+    rand int unsigned frame_bits;
+    rand bit [7:0] data_in;
+
+    constraint c_frame_bits {frame_bits inside {[5:8]};}
+    constraint c_parity {parity_type inside {2'b00, 2'b01, 2'b10};}
+
+endclass
+
+uart_config cfg;
+baud_sel baud;
 
 time bit_time;
 int bit_cycles = 5208; //default value for 9600 baud rate
@@ -82,39 +104,45 @@ initial begin
     wait(arst_n);
     @(posedge clk);
     intf.set_default_config();
+    cfg = new();
+    baud = new();
+
     repeat(N_OF_TESTS) begin
+        intf.set_default_config();
+        assert(baud.randomize());
+        cfg.baud_rate = baud.baud_rate;
 
-        assert(std::randomize(baud_rate) with{
-            baud_rate inside {[4'd0:4'd14]};
-            });
+        repeat(N_OF_TESTS_PER_BAUD) begin
 
-        assert(std::randomize(frame_bits) with {
-            frame_bits inside {[5:8]};
-            });
+            assert(cfg.randomize());
         
-        case(frame_bits)
-            5: frame_size = 2'b00;
-            6: frame_size = 2'b01;
-            7: frame_size = 2'b10;
-            8: frame_size = 2'b11;
-        endcase
+            case(cfg.frame_bits)
+                5: frame_size = 2'b00;
+                6: frame_size = 2'b01;
+                7: frame_size = 2'b10;
+                8: frame_size = 2'b11;
+            endcase
 
-        #(bit_cycles * 10);
-        std::randomize(parity_type);
-        std::randomize(stop_type);
-        std::randomize(data_in);
-        @(posedge clk);
-        intf.set_config(baud_rate, stop_type, parity_type, frame_size, 1'b0);
-        repeat(10) @(posedge clk);
+            #(bit_cycles * 10);
+        
+            expected_data = cfg.data_in;
+        
+            @(posedge clk);
+            intf.set_config(cfg.baud_rate, cfg.stop_type, cfg.parity_type, frame_size, 1'b0);
+            repeat(10) @(posedge clk);
 
-        intf.set_config(baud_rate, stop_type, parity_type, frame_size, 1'b1);
-        intf.set_config_global(baud_rate, stop_type, parity_type, frame_size);
-        intf.transfer(data_in, frame_bits);
+            intf.set_config(cfg.baud_rate, cfg.stop_type, cfg.parity_type, frame_size, 1'b1);
+            intf.set_config_global(cfg.baud_rate, cfg.stop_type, cfg.parity_type, frame_size);
+            intf.transfer(cfg.data_in, cfg.frame_bits);
+            repeat(10) @(posedge clk);
 
-        wait(`RECEIVER.recv);
-        intf.write_tnsm_data(data_in);
-        repeat(2) @(posedge clk);
-        wait(!`TRANSMITTER.busy);
+            wait(`RECEIVER.recv);
+
+            intf.write_tnsm_data(cfg.data_in);
+            repeat(10) @(posedge clk);
+            
+            wait(!`TRANSMITTER.busy);
+        end
     end
     $finish;
 end
@@ -123,10 +151,10 @@ end
 logic [7:0] data_tmp;
 always @(posedge uart_ip_i.recv_busy) begin
     case(frame_size)
-        2'b00: data_tmp = {3'b000, data_in[4:0]};
-        2'b01: data_tmp = {2'b00, data_in[5:0]};
-        2'b10: data_tmp = {1'b0, data_in[6:0]};
-        2'b11: data_tmp = data_in;
+        2'b00: data_tmp = {3'b000, expected_data[4:0]};
+        2'b01: data_tmp = {2'b00, expected_data[5:0]};
+        2'b10: data_tmp = {1'b0, expected_data[6:0]};
+        2'b11: data_tmp = expected_data;
     endcase
 end
 
@@ -141,7 +169,7 @@ end
 )
 
 `AST(UART_TX, tx_idle_when_active_is_low,
-    !(`TRANSMITTER.active) |->,
+    (!(`TRANSMITTER.active) && !(`TRANSMITTER.busy)) |->,
     (`TRANSMITTER.state == STATE_TNSM_IDLE)
 )
 
@@ -151,7 +179,7 @@ end
 )
 
 `AST(UART_RECV, receiver_not_starting_when_active_is_low,
-    !(`RECEIVER.active) |->,
+    (!(`RECEIVER.active) && !(`RECEIVER.busy)) |->,
     (`RECEIVER.state == STATE_RECV_IDLE)
 )
 

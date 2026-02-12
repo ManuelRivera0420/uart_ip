@@ -8,7 +8,8 @@
     ../../rtl/uart_tnsm.sv
     ../../rtl/uart_recv.sv
     ../../rtl/uart_ip.sv
-
+    ../../fv/fv_uart_recv.sv
+    ../../fv/fv_uart_tnsm.sv
 # ============================ verification
     ../uart_ip_interface.sv
     ../uart_ip_tb.sv

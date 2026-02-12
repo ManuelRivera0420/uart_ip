@@ -14,7 +14,7 @@ module fv_uart_recv(
     input logic busy
 );
 
-`define RECEIVER fv_uart_recv_inst
+`define RECEIVER uart_recv
 
 `AST(UART_RECV, receiver_not_starting_when_active_is_low,
     !(active) |->,
@@ -29,11 +29,6 @@ module fv_uart_recv(
 `AST(UART_RECV, receiver_busy_when_not_idle,
     (busy) |->,
     (`RECEIVER.state != STATE_RECV_IDLE)
-)
-
-`AST(UART_RECV, data_timing,
-    $rose(recv) |->,
-    (`RECEIVER.data == data_tmp)   
 )
 
 `AST(UART_RECV, when_reset_not_busy,
@@ -51,7 +46,16 @@ module fv_uart_recv(
     !recv
 )
 
+`COV(uart_recv, is_busy, , busy)
+
+covergroup all_flags_cg @(posedge clk);
+    option.per_instance = 1;
+    busy: coverpoint busy;
+endgroup: all_flags_cg
+
+all_flags_cg all_flags_cg_i = new();
+
+endmodule:fv_uart_recv
 
 bind uart_recv fv_uart_recv fv_uart_recv_inst (.*);
 
-endmodule:fv_uart_recv

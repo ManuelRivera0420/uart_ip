@@ -1,4 +1,5 @@
     ../property_defines.svh
+    ../../rtl/defines.svh
 # ============================ rtl
     ../../rtl/uart_clk_gen.sv
     ../../rtl/uart_edge_detector.sv
@@ -7,7 +8,8 @@
     ../../rtl/uart_tnsm.sv
     ../../rtl/uart_recv.sv
     ../../rtl/uart_ip.sv
-
+    ../../fv/fv_uart_recv.sv
+    ../../fv/fv_uart_tnsm.sv
 # ============================ verification
     ../uart_ip_interface.sv
     ../uart_ip_tb.sv

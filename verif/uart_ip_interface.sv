@@ -242,6 +242,7 @@ task transmit(input logic data [], input int frame_bits);
     foreach (data_tmp[i])
 	data_tmp[i] = 1'b1;
     data_tmp[0] = 1'b0; // start bit
+
     for(int i = 0; i < frame_bits; i++) begin
         data_tmp[i+1] = data[i];
     end
