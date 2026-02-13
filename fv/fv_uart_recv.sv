@@ -56,6 +56,8 @@ module fv_uart_recv(
 
 `COV(UART_RECV, stop_type_s, , stop_type)
 
+`COV(UART_RECV, busy_then_recv, $rose(busy) |->, ##[0:$] recv |-> ##[0:$] !busy)
+
 covergroup all_flags_cg @(posedge clk);
     option.per_instance = 1;
     busy: coverpoint busy;

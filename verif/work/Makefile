@@ -39,5 +39,14 @@ help:
 	@echo " help   --> this help menu =)"
 	@echo ""
 clean:
-	rm -rf xvlog* xelab* xsim* webtalk* tr_db* ana elab sim .Xil vivado* work*
-	rmdir /s /q xsim.dir
+	rm -rf xvlog* xelab* ana elab sim
+
+	rm -f xsim.log xsim.jou xsim_*.backup.log xsim_*.backup.jou
+
+	rm -rf xsim.covdb tr_db* webtalk*
+
+	rm -rf xsim.dir .Xil vivado*
+
+	rm -f work.*.wdb
+
+	[ ! -d work ] || rm -rf work

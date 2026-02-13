@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="work.uart_ip_tb.wdb" id="1">
+         <top_modules>
+            <top_module name="\$unit_property_defines_svh_860010008 " />
+            <top_module name="uart_ip_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="528.676667 us"></ZoomStartTime>
+      <ZoomEndTime time="1,556.676668 us"></ZoomEndTime>
+      <Cursor1Time time="1,192.010000 us"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="142"></NameColumnWidth>
+      <ValueColumnWidth column_width="106"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="44" />
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/arst_n">
+      <obj_property name="ElementShortName">arst_n</obj_property>
+      <obj_property name="ObjectShortName">arst_n</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/uart_ip_i/frame_type">
+      <obj_property name="ElementShortName">frame_type[1:0]</obj_property>
+      <obj_property name="ObjectShortName">frame_type[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/uart_ip_i/parity_type">
+      <obj_property name="ElementShortName">parity_type[1:0]</obj_property>
+      <obj_property name="ObjectShortName">parity_type[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/uart_ip_i/baud_rate">
+      <obj_property name="ElementShortName">baud_rate[3:0]</obj_property>
+      <obj_property name="ObjectShortName">baud_rate[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/stop_type">
+      <obj_property name="ElementShortName">stop_type</obj_property>
+      <obj_property name="ObjectShortName">stop_type</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/active">
+      <obj_property name="ElementShortName">active</obj_property>
+      <obj_property name="ObjectShortName">active</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/data_tmp">
+      <obj_property name="ElementShortName">data_tmp[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data_tmp[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/expected_data">
+      <obj_property name="ElementShortName">expected_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">expected_data[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider3" type="divider">
+      <obj_property name="label">RECEIVER</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/uart_ip_i/uart_recv_i/frame_type">
+      <obj_property name="ElementShortName">frame_type[1:0]</obj_property>
+      <obj_property name="ObjectShortName">frame_type[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/rx">
+      <obj_property name="ElementShortName">rx</obj_property>
+      <obj_property name="ObjectShortName">rx</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/recv_clk_en">
+      <obj_property name="ElementShortName">recv_clk_en</obj_property>
+      <obj_property name="ObjectShortName">recv_clk_en</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/rx_negedge_det">
+      <obj_property name="ElementShortName">rx_negedge_det</obj_property>
+      <obj_property name="ObjectShortName">rx_negedge_det</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/uart_ip_i/recv_data">
+      <obj_property name="ElementShortName">recv_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">recv_data[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/recv_int">
+      <obj_property name="ElementShortName">recv_int</obj_property>
+      <obj_property name="ObjectShortName">recv_int</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/recv_error">
+      <obj_property name="ElementShortName">recv_error</obj_property>
+      <obj_property name="ObjectShortName">recv_error</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/recv_busy">
+      <obj_property name="ElementShortName">recv_busy</obj_property>
+      <obj_property name="ObjectShortName">recv_busy</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/uart_recv_i/error">
+      <obj_property name="ElementShortName">error</obj_property>
+      <obj_property name="ObjectShortName">error</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/uart_ip_i/uart_recv_i/bitcnt">
+      <obj_property name="ElementShortName">bitcnt[3:0]</obj_property>
+      <obj_property name="ObjectShortName">bitcnt[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/uart_ip_i/uart_recv_i/state">
+      <obj_property name="ElementShortName">state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">state[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider4" type="divider">
+      <obj_property name="label">TRANSMITTER</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/tx">
+      <obj_property name="ElementShortName">tx</obj_property>
+      <obj_property name="ObjectShortName">tx</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/tnsm_busy">
+      <obj_property name="ElementShortName">tnsm_busy</obj_property>
+      <obj_property name="ObjectShortName">tnsm_busy</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/uart_ip_i/tnsm_data">
+      <obj_property name="ElementShortName">tnsm_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">tnsm_data[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/uart_ip_i/uart_tnsm_i/bitcnt">
+      <obj_property name="ElementShortName">bitcnt[3:0]</obj_property>
+      <obj_property name="ObjectShortName">bitcnt[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/uart_ip_i/uart_tnsm_i/state">
+      <obj_property name="ElementShortName">state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">state[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/tnsm">
+      <obj_property name="ElementShortName">tnsm</obj_property>
+      <obj_property name="ObjectShortName">tnsm</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider27" type="divider">
+      <obj_property name="label">INTERFACE CONFIG</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/intf/frame_type">
+      <obj_property name="ElementShortName">frame_type[1:0]</obj_property>
+      <obj_property name="ObjectShortName">frame_type[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/intf/stop_type">
+      <obj_property name="ElementShortName">stop_type</obj_property>
+      <obj_property name="ObjectShortName">stop_type</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/intf/parity_type">
+      <obj_property name="ElementShortName">parity_type[1:0]</obj_property>
+      <obj_property name="ObjectShortName">parity_type[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/intf/baud_rate">
+      <obj_property name="ElementShortName">baud_rate[3:0]</obj_property>
+      <obj_property name="ObjectShortName">baud_rate[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider35" type="divider">
+      <obj_property name="label">INTERFACE TX_RX</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/intf/tx_test">
+      <obj_property name="ElementShortName">tx_test</obj_property>
+      <obj_property name="ObjectShortName">tx_test</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/intf/rx_test">
+      <obj_property name="ElementShortName">rx_test</obj_property>
+      <obj_property name="ObjectShortName">rx_test</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/intf/recv_data_test">
+      <obj_property name="ElementShortName">recv_data_test[7:0]</obj_property>
+      <obj_property name="ObjectShortName">recv_data_test[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/intf/rx_intf_busy">
+      <obj_property name="ElementShortName">rx_intf_busy</obj_property>
+      <obj_property name="ObjectShortName">rx_intf_busy</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider38" type="divider">
+      <obj_property name="label">CLK_GEN</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/clk_gen_i/active">
+      <obj_property name="ElementShortName">active</obj_property>
+      <obj_property name="ObjectShortName">active</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/clk_gen_i/tx_clk_en">
+      <obj_property name="ElementShortName">tx_clk_en</obj_property>
+      <obj_property name="ObjectShortName">tx_clk_en</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/uart_ip_tb/uart_ip_i/clk_gen_i/rx_clk_en">
+      <obj_property name="ElementShortName">rx_clk_en</obj_property>
+      <obj_property name="ObjectShortName">rx_clk_en</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/uart_ip_i/clk_gen_i/tx_clk_cnt">
+      <obj_property name="ElementShortName">tx_clk_cnt[17:0]</obj_property>
+      <obj_property name="ObjectShortName">tx_clk_cnt[17:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/uart_ip_tb/uart_ip_i/clk_gen_i/rx_clk_cnt">
+      <obj_property name="ElementShortName">rx_clk_cnt[12:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_clk_cnt[12:0]</obj_property>
+   </wvobject>
+</wave_config>

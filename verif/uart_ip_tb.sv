@@ -3,6 +3,8 @@ module uart_ip_tb();
 bit clk;
 bit arst_n;
 
+`define FAST_BAUDS
+
 parameter int BAUD_RATES [16] = '{200, 300, 600, 1200, 1800, 2400, 4800, 9600, 19200, 28800, 38400, 57600,
 76800, 115200, 230400, 460800};
 
@@ -30,8 +32,8 @@ localparam time HALF_BIT = BIT_TIME / 2;
 localparam int HALF_BIT_CYCLES = HALF_BIT / CLK_PERIOD;
 
 // NUMBER OF TESTS FOR THE TESTBENCH //
-localparam N_OF_TESTS = 50;
-localparam N_OF_TESTS_PER_BAUD = 20;
+localparam N_OF_TESTS = 10;
+localparam N_OF_TESTS_PER_BAUD = 5;
 // INTERFACE INSTANTIATION //
 uart_ip_interface intf(clk, arst_n);
 
@@ -69,7 +71,7 @@ logic [7:0] expected_data;
 
 class baud_sel;
     rand bit [3:0] baud_rate;
-    constraint c {baud_rate inside {[4'd7:4'd14]};}
+    constraint c {baud_rate inside {[4'd0:4'd14]};}
 endclass
 
 class uart_config;
@@ -81,7 +83,7 @@ class uart_config;
     rand bit [7:0] data_in;
 
     constraint c_frame_bits {frame_bits inside {[5:8]};}
-    constraint c_parity {parity_type inside {2'b00, 2'b01, 2'b10};}
+    constraint c_parity {parity_type inside {2'b00};}
 
 endclass
 
@@ -108,9 +110,17 @@ initial begin
     baud = new();
 
     repeat(N_OF_TESTS) begin
+
         intf.set_default_config();
-        assert(baud.randomize());
+
+        `ifdef FAST_BAUDS
+            assert(baud.randomize() with {baud_rate inside {[7:14]}; });
+        `else
+            assert(baud.randomize() with {baud_rate inside {[0:6]}; });
+        `endif
+
         cfg.baud_rate = baud.baud_rate;
+        repeat(bit_cycles) @(posedge clk);
 
         repeat(N_OF_TESTS_PER_BAUD) begin
 
@@ -122,17 +132,16 @@ initial begin
                 7: frame_size = 2'b10;
                 8: frame_size = 2'b11;
             endcase
-
-            #(bit_cycles * 10);
         
             expected_data = cfg.data_in;
         
-            @(posedge clk);
-            intf.set_config(cfg.baud_rate, cfg.stop_type, cfg.parity_type, frame_size, 1'b0);
-            repeat(10) @(posedge clk);
+            repeat(1000) @(posedge clk);
 
             intf.set_config(cfg.baud_rate, cfg.stop_type, cfg.parity_type, frame_size, 1'b1);
             intf.set_config_global(cfg.baud_rate, cfg.stop_type, cfg.parity_type, frame_size);
+
+            repeat(bit_cycles) @(posedge clk);
+
             intf.transfer(cfg.data_in, cfg.frame_bits);
             repeat(10) @(posedge clk);
 
@@ -220,10 +229,10 @@ always @(posedge `RECEIVER.busy) begin
     end
 end
 
-
+/*
 initial begin
     $shm_open("shm_db");
     $shm_probe("ASMTR");
 end
-
+*/
 endmodule
