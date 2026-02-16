@@ -3,7 +3,7 @@ module uart_ip_tb();
 bit clk;
 bit arst_n;
 
-`define FAST_BAUDS
+//`define FAST_BAUDS
 
 parameter int BAUD_RATES [16] = '{200, 300, 600, 1200, 1800, 2400, 4800, 9600, 19200, 28800, 38400, 57600,
 76800, 115200, 230400, 460800};
