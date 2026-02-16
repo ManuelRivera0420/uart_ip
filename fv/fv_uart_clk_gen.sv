@@ -14,17 +14,7 @@ localparam int N_SBAUDS = 500_000;
     !active |->,
     (!tx_clk_en && !rx_clk_en)
 )
-/*
-`AST (UART_CLK_GEN, clk_active_rx,
-    active |-> ##[0:N_FBAUDS],
-    (rx_clk_en == 1'b1)
-)
 
-`AST (UART_CLK_GEN, clk_active_tx,
-    active |-> ##[0:N_FBAUDS],
-    (tx_clk_en == 1'b1)
-)
-*/ // TODO ?
 `AST (UART_CLK_GEN, reset_disables_all,
     !arst_n |->,
     (!tx_clk_en && !rx_clk_en)
@@ -53,6 +43,8 @@ covergroup clk_gen_active_cg @(posedge clk);
     rx_clk_en: coverpoint rx_clk_en;
     baud_rate: coverpoint baud_rate;
 endgroup: clk_gen_active_cg
+
+clk_gen_active_cg clk_gen_active_cg_i = new();
 
 endmodule
 

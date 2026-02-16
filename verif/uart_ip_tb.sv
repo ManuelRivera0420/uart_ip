@@ -32,8 +32,8 @@ localparam time HALF_BIT = BIT_TIME / 2;
 localparam int HALF_BIT_CYCLES = HALF_BIT / CLK_PERIOD;
 
 // NUMBER OF TESTS FOR THE TESTBENCH //
-localparam N_OF_TESTS = 10;
-localparam N_OF_TESTS_PER_BAUD = 5;
+localparam N_OF_TESTS = 100;
+localparam N_OF_TESTS_PER_BAUD = 3;
 // INTERFACE INSTANTIATION //
 uart_ip_interface intf(clk, arst_n);
 
@@ -113,11 +113,11 @@ initial begin
 
         intf.set_default_config();
 
-        `ifdef FAST_BAUDS
-            assert(baud.randomize() with {baud_rate inside {[7:14]}; });
-        `else
-            assert(baud.randomize() with {baud_rate inside {[0:6]}; });
-        `endif
+  //      `ifdef FAST_BAUDS
+        assert(baud.randomize() with {baud_rate inside {[0:14]}; });
+  //      `else
+  //          assert(baud.randomize() with {baud_rate inside {[0:6]}; });
+  //      `endif
 
         cfg.baud_rate = baud.baud_rate;
         repeat(bit_cycles) @(posedge clk);
@@ -229,10 +229,10 @@ always @(posedge `RECEIVER.busy) begin
     end
 end
 
-/*
+
 initial begin
     $shm_open("shm_db");
     $shm_probe("ASMTR");
 end
-*/
+
 endmodule
