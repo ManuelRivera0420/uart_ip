@@ -246,6 +246,7 @@ task transmit(input logic data [], input int frame_bits);
     for(int i = 0; i < frame_bits; i++) begin
         data_tmp[i+1] = data[i];
     end
+    @(posedge clk);
     repeat(total_packet_bits) begin
 	if(start_bit)
            repeat(1_000_000_000/BAUD_RATES[baud_rate]) #1;
@@ -272,9 +273,90 @@ task transfer(logic [7:0] data, input int frame_bits);
         repeat(10) @(posedge clk);
 endtask
 
+task transfer_corrupt(logic [7:0] data, input int frame_bits);
+    logic data_tmp [];
+    logic [1:0] size;
+    data_tmp = new[frame_bits];
+    initialize();
+    for (int i = 0; i < frame_bits; i++) data_tmp[i] = data[i];
+        repeat(10) @(posedge clk);
+    fork
+      gen_drive_ev();
+      transmit_corrupt(data_tmp, frame_bits);
+    join_none
+        repeat(10) @(posedge clk);
+endtask
+
+task transmit_corrupt(input logic data [], input int frame_bits);
+    logic data_tmp [];
+    start_bit = 1'b0;
+    calculate_packet_bits();
+    data_tmp = new[total_packet_bits];
+    foreach (data_tmp[i])
+        data_tmp[i] = 1'b1;
+    data_tmp[0] = 1'b1; // start bit
+
+    for(int i = 0; i < frame_bits; i++) begin
+        data_tmp[i+1] = data[i];
+    end
+    repeat(total_packet_bits) begin
+        if(start_bit)
+           repeat(1_000_000_000/BAUD_RATES[baud_rate]) #1;
+        else
+           repeat((1_000_000_000/BAUD_RATES[baud_rate])/2) #1;
+   	start_bit = 1'b1;
+        tx_test = data_tmp[0];
+        for (int i = 0; i < total_packet_bits-1; i++)
+           data_tmp[i] = data_tmp[i+1];
+    end
+endtask
+
+
 always begin
     wait_recv_data(recv_data_test);
 end
+
+
+
+/// CORRUPT START BIT NOISE //
+
+task transfer_corrupt_start(logic [7:0] data, input int frame_bits);
+    logic data_tmp [];
+    logic [1:0] size;
+    data_tmp = new[frame_bits];
+    initialize();
+    for (int i = 0; i < frame_bits; i++) data_tmp[i] = data[i];
+        repeat(10) @(posedge clk);
+    fork
+      gen_drive_ev();
+      transmit_corrupt(data_tmp, frame_bits);
+    join_none
+        repeat(10) @(posedge clk);
+endtask
+
+task transmit_corrupt_start(input logic data [], input int frame_bits);
+    logic data_tmp [];
+    start_bit = 1'b0;
+    calculate_packet_bits();
+    data_tmp = new[total_packet_bits];
+    foreach (data_tmp[i])
+        data_tmp[i] = 1'b1;
+    data_tmp[0] = 1'b1; // start bit
+
+    for(int i = 0; i < frame_bits; i++) begin
+        data_tmp[i+1] = data[i];
+    end
+    repeat(total_packet_bits) begin
+        if(start_bit)
+           repeat(1_000_000_000/BAUD_RATES[baud_rate]) #1;
+        else
+           repeat((1_000_000_000/BAUD_RATES[baud_rate])/2) #1;
+        start_bit = 1'b1;
+        tx_test = data_tmp[0];
+        for (int i = 0; i < total_packet_bits-1; i++)
+           data_tmp[i] = data_tmp[i+1];
+    end
+endtask
 
 endinterface
 

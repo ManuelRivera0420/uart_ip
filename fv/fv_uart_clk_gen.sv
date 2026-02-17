@@ -11,7 +11,7 @@ localparam int N_FBAUDS = 5208;
 localparam int N_SBAUDS = 500_000;
 
 `AST (UART_CLK_GEN, clk_not_active, 
-    !active |->,
+    !active && $past(!active) |->,
     (!tx_clk_en && !rx_clk_en)
 )
 
@@ -42,12 +42,14 @@ localparam int N_SBAUDS = 500_000;
 
 `COV (UART_CLK_GEN, rx_clk_was_set, , rx_clk_en)
 
-covergroup clk_gen_active_cg @(posedge clk iff active);
+covergroup clk_gen_active_cg @(posedge clk iff arst_n);
     option.per_instance = 1;
     active: coverpoint active;
     tx_clk_en: coverpoint tx_clk_en;
     rx_clk_en: coverpoint rx_clk_en;
     baud_rate: coverpoint baud_rate;
+
+    active_all_bauds: cross active, baud_rate;
 endgroup: clk_gen_active_cg
 
 clk_gen_active_cg clk_gen_active_cg_i = new();

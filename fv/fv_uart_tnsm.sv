@@ -53,18 +53,18 @@ module fv_uart_tnsm(
 
 `COV(UART_TX, tnsm_stop_type, , stop_type)
 
-covergroup tx_signals_cg @(posedge clk iff active);
+covergroup tx_signals_cg @(posedge clk iff arst_n);
     option.per_instance = 1;
 
     busy: coverpoint busy;
-    active: coverpoint active;
+    active: coverpoint active {bins active_bins [] = {[0:1]};}
     tnsm: coverpoint tnsm;
     stop_type: coverpoint stop_type;
     frame_type: coverpoint frame_type {bins frame_type_bins [] = {[0:3]}; }
     parity_type: coverpoint parity_type {bins parity_type_bins [] = {[0:3]}; }
-/*
-    cross stop_type, frame_type { bins all_combinations[] = binsof(stop_type) cross binsof(frame_type); }
-*/
+
+    frame_stop: cross stop_type, frame_type;
+
 endgroup: tx_signals_cg
 
 

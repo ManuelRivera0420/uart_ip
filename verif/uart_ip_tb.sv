@@ -32,8 +32,8 @@ localparam time HALF_BIT = BIT_TIME / 2;
 localparam int HALF_BIT_CYCLES = HALF_BIT / CLK_PERIOD;
 
 // NUMBER OF TESTS FOR THE TESTBENCH //
-localparam N_OF_TESTS = 100;
-localparam N_OF_TESTS_PER_BAUD = 3;
+localparam N_OF_TESTS = 150;
+localparam N_OF_TESTS_PER_BAUD = 5;
 // INTERFACE INSTANTIATION //
 uart_ip_interface intf(clk, arst_n);
 
@@ -83,7 +83,7 @@ class uart_config;
     rand bit [7:0] data_in;
 
     constraint c_frame_bits {frame_bits inside {[5:8]};}
-    constraint c_parity {parity_type inside {2'b00};}
+    constraint c_parity {parity_type inside {2'b00, 2'b01, 2'b10, 2'b11};}
 
 endclass
 
@@ -114,7 +114,7 @@ initial begin
         intf.set_default_config();
 
   //      `ifdef FAST_BAUDS
-        assert(baud.randomize() with {baud_rate inside {[7:14]}; });
+        assert(baud.randomize() with {baud_rate inside {[0:14]}; });
   //      `else
   //          assert(baud.randomize() with {baud_rate inside {[0:6]}; });
   //      `endif
@@ -146,12 +146,19 @@ initial begin
             repeat(10) @(posedge clk);
 
             wait(`RECEIVER.recv);
+	    //$display("Expected receiver data: %h, Received data: %h, Actual baud rate: %d", data_tmp, `RECEIVER.data, uart_ip_i.clk_gen_i.BAUD_RATES[cfg.baud_rate]);
 
             intf.write_tnsm_data(cfg.data_in);
             repeat(10) @(posedge clk);
             
             wait(!`TRANSMITTER.busy);
         end
+    end
+    repeat(10) begin
+        repeat (bit_cycles) @(posedge clk);
+        intf.set_config(cfg.baud_rate, cfg.stop_type, cfg.parity_type, frame_size, 1'b1);
+        intf.set_config_global(cfg.baud_rate, cfg.stop_type, cfg.parity_type, frame_size);
+        intf.transfer_corrupt(8'hff, cfg.frame_bits);
     end
     $finish;
 end
@@ -229,10 +236,10 @@ always @(posedge `RECEIVER.busy) begin
     end
 end
 
-/*
+
 initial begin
     $shm_open("shm_db");
     $shm_probe("ASMTR");
 end
-*/
+
 endmodule
