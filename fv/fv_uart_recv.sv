@@ -58,15 +58,18 @@ module fv_uart_recv(
 
 `COV(UART_RECV, busy_then_recv, $rose(busy) |->, ##[0:$] recv |-> ##[0:$] !busy)
 
-covergroup all_flags_cg @(posedge clk);
+covergroup all_flags_cg @(posedge clk iff active);
     option.per_instance = 1;
     busy: coverpoint busy;
     recv: coverpoint recv;
     active: coverpoint active;
     rx_negedge_det: coverpoint rx_negedge_det;
     stop_type: coverpoint stop_type;
-    frame_type: coverpoint frame_type {bins frame_type_bins [] = {[0:1]}; }
-    parity_type: coverpoint parity_type {bins parity_type_bins [] = {[0:1]}; }
+    frame_type: coverpoint frame_type {bins frame_type_bins [] = {[0:3]}; }
+    parity_type: coverpoint parity_type {bins parity_type_bins [] = {[0:3]}; }
+/*    
+    cross stop_type, frame_type { bins all_combinations[] = binsof(stop_type) cross binsof(frame_type); }
+*/  
 endgroup: all_flags_cg
 
 all_flags_cg all_flags_cg_i = new();

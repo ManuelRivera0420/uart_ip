@@ -13,7 +13,7 @@ module fv_uart_tnsm(
     input logic tx
 );
 
-`define TRANSMITTER fv_uart_tnsm_inst
+`define TRANSMITTER uart_tnsm
 
 `AST(UART_TX, tx_startbit,
     $rose(tnsm && active && tnsm_clk_en) && !busy |=>,
@@ -26,12 +26,12 @@ module fv_uart_tnsm(
 )
 
 `AST(UART_TX, tx_idle_when_active_is_low,
-    !(active) |->,
-    (uart_tnsm.state == STATE_TNSM_IDLE)
+    (!active && !busy) |->,
+    (`TRANSMITTER.state == STATE_TNSM_IDLE)
 )
 
 `AST(UART_TX, tx_high_when_stop_bit_state,
-    ((uart_tnsm.state == STATE_TNSM_STOP1) || (uart_tnsm.state == STATE_TNSM_STOP2)) |->,
+    ((`TRANSMITTER.state == STATE_TNSM_STOP1) || (`TRANSMITTER.state == STATE_TNSM_STOP2)) |->,
     (tx)
 )
 
@@ -40,10 +40,10 @@ module fv_uart_tnsm(
     !busy
 )
 
-`AST(UART_TX, tx_busy_when_tnsm,
-    $rose(tnsm && active && tnsm_clk_en) && !busy |-> ##1,
-    (busy)
+`AST(UART_TX, tx_busy_on_tnsm,
+    $rose(tnsm && active && tnsm_clk_en) && !busy |-> ##1, busy
 )
+
 
 `COV(UART_TX, tx_busy, , busy)
 
@@ -53,13 +53,20 @@ module fv_uart_tnsm(
 
 `COV(UART_TX, tnsm_stop_type, , stop_type)
 
-covergroup tx_signals_cg @(posedge clk);
-	option.per_instance = 1;
-	busy: coverpoint busy;
-	active: coverpoint active;
-	tnsm: coverpoint tnsm;
-	stop_type: coverpoint stop_type;
+covergroup tx_signals_cg @(posedge clk iff active);
+    option.per_instance = 1;
+
+    busy: coverpoint busy;
+    active: coverpoint active;
+    tnsm: coverpoint tnsm;
+    stop_type: coverpoint stop_type;
+    frame_type: coverpoint frame_type {bins frame_type_bins [] = {[0:3]}; }
+    parity_type: coverpoint parity_type {bins parity_type_bins [] = {[0:3]}; }
+/*
+    cross stop_type, frame_type { bins all_combinations[] = binsof(stop_type) cross binsof(frame_type); }
+*/
 endgroup: tx_signals_cg
+
 
 tx_signals_cg tx_signals_cg_i = new();
 

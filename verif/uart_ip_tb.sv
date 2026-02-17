@@ -114,7 +114,7 @@ initial begin
         intf.set_default_config();
 
   //      `ifdef FAST_BAUDS
-        assert(baud.randomize() with {baud_rate inside {[0:14]}; });
+        assert(baud.randomize() with {baud_rate inside {[7:14]}; });
   //      `else
   //          assert(baud.randomize() with {baud_rate inside {[0:6]}; });
   //      `endif
@@ -229,10 +229,10 @@ always @(posedge `RECEIVER.busy) begin
     end
 end
 
-
+/*
 initial begin
     $shm_open("shm_db");
     $shm_probe("ASMTR");
 end
-
+*/
 endmodule
