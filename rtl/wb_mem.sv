@@ -70,4 +70,11 @@ module wb_mem #(
 
     assign wbs_err_o = 1'b0;
 
+    initial begin
+        integer i;
+        for (i = 0; i < DEPTH; i = i + 1) begin
+            mem[i] = '0;
+        end
+    end
+
 endmodule
