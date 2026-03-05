@@ -20,3 +20,12 @@ localparam int BIT_CYCLES = BIT_TIME / CLK_PERIOD;
 localparam time SAMPLING_TIME = 1s / (9600 * 16);
 localparam time HALF_BIT = BIT_TIME / 2;
 localparam int HALF_BIT_CYCLES = HALF_BIT / CLK_PERIOD;
+
+//***************************************
+// Parameter definitions
+//***************************************
+
+parameter AW = 16;
+parameter DW = 32;
+parameter ROWS = 2**AW-6;	//Quantity of rows in memory array
+parameter COLS = DW;	//Quantity of columns in memory array

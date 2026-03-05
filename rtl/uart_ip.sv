@@ -11,16 +11,20 @@
 module uart_ip(
     input logic clk,
     input logic arst_n,
-    
     input logic ctl_reg_we,
     input logic [18:0] ctl_reg_wdata,
     input logic [18:0] ctl_reg_wmask,
-	 output logic [18:0] ctl_reg_rdata,
+	output logic [18:0] ctl_reg_rdata,
     
     input logic st_reg_re,
     input logic [11:0] st_reg_rmask,
     output logic [11:0] st_reg_rdata,
-    
+    output logic [7:0] recv_data,
+    output logic recv_done,
+    output logic [31:0] mem_wdata,
+    output logic [15:0] wr_addr,
+    output logic mem_wen,
+    output logic prog_rdy,
     input logic rx,
     output logic tx
     );
@@ -38,10 +42,10 @@ logic [3:0] baud_rate;
 // Receiver-related signals
 logic recv_clk_en;
 logic rx_negedge_det;
-logic [7:0] recv_data;
-logic recv_int;
+//logic [7:0] recv_data;
 logic recv_error;
 logic recv_busy;
+//logic recv_done;
 
 // Control register related signals
 logic active;
@@ -49,19 +53,6 @@ logic [1:0] frame_type;  // 2'b00 : 5 bits, 2'b01 : 6 bits, 2'b10 : 7 bits, 2'b1
 logic [1:0] parity_type; // 2'b00 : no parity, 2'b01: even parity, 2'b10: odd parity, 2'b11: no parity
 logic stop_type;         // 1'b0 : 1 stop bit, 1'b1 : 2 stop bits
 
-// Status register
-uart_status_reg uart_status_reg_i(
-    .clk(clk),
-    .arst_n(arst_n),
-    .recv_error(recv_error),              // Receiver error
-    .recv_busy(recv_busy),                // Receiver busy
-    .tnsm_busy(tnsm_busy),                // Transmitter busy
-    .recv_int(recv_int),                  // received data interrupt
-    .recv_data(recv_data),                // received data
-    .re(st_reg_re),                       // read enable
-    .rmask(st_reg_rmask),                 // read mask used for read on clear (when rmask bit === 1)
-    .status_data(st_reg_rdata)            // Status output data
-);
 
 // Control register
 uart_control_reg uart_control_reg_i(
@@ -104,12 +95,12 @@ uart_tnsm uart_tnsm_i(
     .clk(clk),
     .arst_n(arst_n),
     .active(active),
-    .tnsm(tnsm),
     .data(tnsm_data),
     .frame_type(frame_type),
     .parity_type(parity_type),
     .stop_type(stop_type),
     .tnsm_clk_en(tnsm_clk_en),
+    .tnsm(tnsm),
     .busy(tnsm_busy),
     .tnsm_clr(tnsm_clr),
     .tx(tx)
@@ -127,9 +118,79 @@ uart_recv uart_recv_i(
     .stop_type(stop_type),
     .recv_clk_en(recv_clk_en),
     .data(recv_data),
-    .recv(recv_int),
+    .recv(recv_done),
     .error(recv_error),
     .busy(recv_busy)
     );
+
+logic fsm_busy;
+logic fsm_ready;
+logic next_program;
+assign next_program = 1'b1;
+
+fsm_instruction_loader fsm_instruction_loader_i (
+    .clk(clk),
+    .arst_n(arst_n),
+    .next_program(next_program),
+    .w_en(recv_done),
+    .data_in(recv_data),
+    .data_out(mem_wdata),
+    .wr_addr(wr_addr),
+    .inst_rdy(mem_wen),
+    .busy(fsm_busy),
+    .ready(fsm_ready),
+    .prog_rdy(prog_rdy)
+);
+
+// Master related signals //
+logic cmd_ready;
+logic [31:0] rsp_rdata;
+logic rsp_valid;
+logic [15:0] wbm_adr_o;
+logic [31:0] wbm_dat_o;
+logic wbm_we_o;
+logic [3:0] wbm_sel_o;
+logic wbm_stb_o;
+logic wbm_cyc_o;
+
+logic [31:0] wbs_dat_o;
+logic [3:0] wbs_sel_o;
+logic wbs_ack_o;
+logic wbs_err_o;
+
+wb_master wb_master_i(
+    .clk(clk),
+    .rst_n(arst_n),
+    .cmd_addr(wr_addr),
+    .cmd_wdata(mem_wdata),
+    .cmd_we(1'b1),
+    .cmd_valid(mem_wen),
+    .cmd_ready(cmd_ready),
+    .rsp_rdata(rsp_rdata),
+    .rsp_valid(rsp_valid),
+    .wbm_adr_o(wbm_adr_o),
+    .wbm_dat_o(wbm_dat_o),
+    .wbm_dat_i(wbs_dat_o),
+    .wbm_we_o(wbm_we_o),
+    .wbm_sel_o(wbm_sel_o),
+    .wbm_stb_o(wbm_stb_o),
+    .wbm_cyc_o(wbm_cyc_o),
+    .wbm_ack_i(wbs_ack_o),
+    .wbm_err_i(wbs_err_o)
+);
+
+wb_sram wb_sram_i(
+    .clk(clk),
+    .rst_n(arst_n),
+    .wbs_adr_i(wbm_adr_o),
+    .wbs_dat_i(wbm_dat_o),
+    .wbs_dat_o(wbs_dat_o),
+    .wbs_we_i(wbm_we_o),
+    .wbs_sel_i(wbm_sel_o),
+    .wbs_stb_i(wbm_stb_o),
+    .wbs_cyc_i(wbm_cyc_o),
+    .wbs_ack_o(wbs_ack_o),
+    .wbs_err_o(wbs_err_o)
+);
 
 endmodule

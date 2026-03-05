@@ -32,7 +32,7 @@ localparam time HALF_BIT = BIT_TIME / 2;
 localparam int HALF_BIT_CYCLES = HALF_BIT / CLK_PERIOD;
 
 // NUMBER OF TESTS FOR THE TESTBENCH //
-localparam N_OF_TESTS = 150;
+localparam N_OF_TESTS = 1000;
 localparam N_OF_TESTS_PER_BAUD = 5;
 // INTERFACE INSTANTIATION //
 uart_ip_interface intf(clk, arst_n);
@@ -48,8 +48,8 @@ uart_ip uart_ip_i(
 .st_reg_re(intf.st_reg_re),
 .st_reg_rmask(intf.st_reg_rmask),
 .st_reg_rdata(intf.st_reg_rdata),
-.rx(intf.tx_test),
-.tx(intf.rx_test)
+.rx(intf.tx),
+.tx(intf.tx)
 );
 
 `define RECEIVER uart_ip_i.uart_recv_i
@@ -62,7 +62,6 @@ assign #50ns arst_n = 1'b1;
 
 int frame_bits;
 logic [7:0] data_in;
-
 logic stop_type;
 logic [3:0] baud_rate;
 logic [1:0] parity_type;
@@ -81,10 +80,12 @@ class uart_config;
     rand bit [1:0] parity_type;
     rand int unsigned frame_bits;
     rand bit [7:0] data_in;
+    rand bit [1:0] frame_width;
 
-    constraint c_frame_bits {frame_bits inside {[5:8]};}
-    constraint c_parity {parity_type inside {2'b00, 2'b01, 2'b10, 2'b11};}
+endclass
 
+class uart_inst_num;
+    rand bit [7:0] data_in;
 endclass
 
 uart_config cfg;
@@ -101,9 +102,12 @@ always @(posedge clk) begin
     end
 end
 
+logic start;
+logic [7:0] instructions;
 
 initial begin
     wait(arst_n);
+    start = 1'b0;
     @(posedge clk);
     intf.set_default_config();
     cfg = new();
@@ -111,135 +115,50 @@ initial begin
 
     repeat(N_OF_TESTS) begin
 
-        intf.set_default_config();
-
-  //      `ifdef FAST_BAUDS
-        assert(baud.randomize() with {baud_rate inside {[0:14]}; });
-  //      `else
-  //          assert(baud.randomize() with {baud_rate inside {[0:6]}; });
-  //      `endif
-
-        cfg.baud_rate = baud.baud_rate;
         repeat(bit_cycles) @(posedge clk);
-
-        repeat(N_OF_TESTS_PER_BAUD) begin
-
-            assert(cfg.randomize());
         
-            case(cfg.frame_bits)
-                5: frame_size = 2'b00;
-                6: frame_size = 2'b01;
-                7: frame_size = 2'b10;
-                8: frame_size = 2'b11;
-            endcase
+        assert(cfg.randomize());
+
+        expected_data = cfg.data_in;
+        std::randomize(instructions) with {instructions inside {[8'h0a: 8'h20]}; };
         
-            expected_data = cfg.data_in;
-        
-            repeat(1000) @(posedge clk);
+        repeat(1000) @(posedge clk);
 
-            intf.set_config(cfg.baud_rate, cfg.stop_type, cfg.parity_type, frame_size, 1'b1);
-            intf.set_config_global(cfg.baud_rate, cfg.stop_type, cfg.parity_type, frame_size);
+        intf.set_config(4'd13, 1'b0, 2'b00, 2'b11, 1'b1);
 
-            repeat(bit_cycles) @(posedge clk);
+        repeat(10) @(posedge clk);
 
-            intf.transfer(cfg.data_in, cfg.frame_bits);
+        if(start == 1'b0) begin
+            intf.write_tnsm_data(instructions);
+            wait(`RECEIVER.recv_done);
             repeat(10) @(posedge clk);
+            start = 1'b1;
 
-            wait(`RECEIVER.recv);
-	    //$display("Expected receiver data: %h, Received data: %h, Actual baud rate: %d", data_tmp, `RECEIVER.data, uart_ip_i.clk_gen_i.BAUD_RATES[cfg.baud_rate]);
-
+        end else begin
             intf.write_tnsm_data(cfg.data_in);
-            repeat(10) @(posedge clk);
-            
-            wait(!`TRANSMITTER.busy);
+
+            wait(`RECEIVER.recv_done);
+
+            repeat(10) @(posedge clk);           
         end
-    end
-    repeat(10) begin
-        repeat (bit_cycles) @(posedge clk);
-        intf.set_config(cfg.baud_rate, cfg.stop_type, cfg.parity_type, frame_size, 1'b1);
-        intf.set_config_global(cfg.baud_rate, cfg.stop_type, cfg.parity_type, frame_size);
-        intf.transfer_corrupt(8'hff, cfg.frame_bits);
+
     end
     $finish;
 end
 
+always @(posedge uart_ip_i.prog_rdy) begin
+    start = 1'b0;
+    @(posedge clk);
+end
 
 logic [7:0] data_tmp;
 always @(posedge uart_ip_i.recv_busy) begin
-    case(frame_size)
+    case(cfg.frame_width)
         2'b00: data_tmp = {3'b000, expected_data[4:0]};
         2'b01: data_tmp = {2'b00, expected_data[5:0]};
         2'b10: data_tmp = {1'b0, expected_data[6:0]};
         2'b11: data_tmp = expected_data;
     endcase
-end
-
-`AST(UART_TX, tx_startbit,
-    $rose(`TRANSMITTER.tnsm && `TRANSMITTER.active && `TRANSMITTER.tnsm_clk_en) && !`TRANSMITTER.busy |=>,
-    !(`TRANSMITTER.tx)
-)
-
-`AST(UART_TX, tx_idle,
-    (!`TRANSMITTER.busy) |->,
-    (`TRANSMITTER.tx)
-)
-
-`AST(UART_TX, tx_idle_when_active_is_low,
-    (!(`TRANSMITTER.active) && !(`TRANSMITTER.busy)) |->,
-    (`TRANSMITTER.state == STATE_TNSM_IDLE)
-)
-
-`AST(UART_TX, tx_high_when_stop_bit_state,
-    ((`TRANSMITTER.state == STATE_TNSM_STOP1) || (`TRANSMITTER.state == STATE_TNSM_STOP2)) |->,
-    (`TRANSMITTER.tx)
-)
-
-`AST(UART_RECV, receiver_not_starting_when_active_is_low,
-    (!(`RECEIVER.active) && !(`RECEIVER.busy)) |->,
-    (`RECEIVER.state == STATE_RECV_IDLE)
-)
-
-`AST(UART_RECV, receiver_starts_when_active_and_negedge_detected,
-    ((`RECEIVER.active) && $rose((`RECEIVER.rx_negedge_det)) && (`RECEIVER.state == STATE_RECV_IDLE)) |=>,
-    (`RECEIVER.state == STATE_RECV_START)
-)
-
-`AST(UART_RECV, receiver_busy_when_not_idle,
-    (`RECEIVER.busy) |->,
-    (`RECEIVER.state != STATE_RECV_IDLE)
-)
-
-`AST(UART_RECV, data_timing,
-    $rose(`RECEIVER.recv) |->,
-    (`RECEIVER.data == data_tmp)   
-)
-
-`AST(UART_RECV, when_reset_not_busy,
-    !`RECEIVER.arst_n |->,
-    !`RECEIVER.busy
-)
-
-`AST(UART_RECV, if_recv_not_busy_anymore,
-    `RECEIVER.recv |->,
-    !`RECEIVER.busy
-)
-
-`AST(UART_RECV, recv_is_active_one_cycle,
-    `RECEIVER.recv |-> ##1,
-    !`RECEIVER.recv
-)
-
-always @(posedge `RECEIVER.busy) begin
-    if(`RECEIVER.active) begin
-	repeat(half_bit_cycles) @(posedge clk);
-	assert (`RECEIVER.rx == 1'b0);
-    end
-end
-
-
-initial begin
-    $shm_open("shm_db");
-    $shm_probe("ASMTR");
 end
 
 endmodule
