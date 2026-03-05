@@ -9,7 +9,7 @@
     ../../rtl/rtl_mixedsram/sipo.sv
     ../../rtl/rtl_mixedsram/sram_ip.sv
     ../../rtl/rtl_mixedsram/wb/wb_sram.sv
-
+    ../../rtl/wb_mem.sv
   # ============================ rtl UART
     ../../rtl/uart_clk_gen.sv
     ../../rtl/uart_edge_detector.sv

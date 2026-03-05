@@ -130,14 +130,14 @@ initial begin
 
         if(start == 1'b0) begin
             intf.write_tnsm_data(instructions);
-            wait(`RECEIVER.recv_done);
+            wait(`RECEIVER.recv);
             repeat(10) @(posedge clk);
             start = 1'b1;
 
         end else begin
             intf.write_tnsm_data(cfg.data_in);
 
-            wait(`RECEIVER.recv_done);
+            wait(`RECEIVER.recv);
 
             repeat(10) @(posedge clk);           
         end

@@ -179,7 +179,7 @@ wb_master wb_master_i(
     .wbm_err_i(wbs_err_o)
 );
 
-wb_sram wb_sram_i(
+wb_mem wb_mem_i(
     .clk(clk),
     .rst_n(arst_n),
     .wbs_adr_i(wbm_adr_o),
