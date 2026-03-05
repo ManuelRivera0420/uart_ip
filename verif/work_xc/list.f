@@ -17,7 +17,7 @@
     ../../rtl/uart_tnsm.sv
     ../../rtl/uart_recv.sv
     ../../rtl/fsm_instruction_loader.sv
-    ../../rtl/wb_master.sv
+    ../../rtl/wishbone_logic/wb_master.sv
     ../../rtl/uart_ip.sv 
 # ============================ verification
     ../uart_ip_interface.sv

@@ -9,7 +9,7 @@
     ../../rtl/rtl_mixedsram/sipo.sv
     ../../rtl/rtl_mixedsram/sram_ip.sv
     ../../rtl/rtl_mixedsram/wb/wb_sram.sv
-    ../../rtl/wb_mem.sv
+    ../../rtl/wishbone_logic/wb_mem.sv
   # ============================ rtl UART
     ../../rtl/uart_clk_gen.sv
     ../../rtl/uart_edge_detector.sv
@@ -17,7 +17,7 @@
     ../../rtl/uart_tnsm.sv
     ../../rtl/uart_recv.sv
     ../../rtl/fsm_instruction_loader.sv
-    ../../rtl/wb_master.sv
+    ../../rtl/wishbone_logic/wb_master.sv
     ../../rtl/uart_ip.sv 
 # ============================ verification
     ../uart_ip_interface.sv
