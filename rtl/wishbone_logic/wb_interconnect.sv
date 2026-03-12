@@ -102,6 +102,14 @@ module wb_interconnect #(
     output logic           s2_stb_o,
     output logic           s2_cyc_o,
     input  logic           s2_ack_i,
+    input  logic signed [10:0] temp_entrada, 
+    input  logic               sensor_valid, 
+    output logic               calefactor,   
+    output logic               alerta,
+    output logic               ventilador,
+    output logic        [ 1:0] estado_actual,
+    output logic        [ 2:0] cont_bajo,
+    output logic        [ 2:0] cont_alto,
 
     // ---- Slave 3 (servo - ramon)
     output logic [AW-1:0] s3_adr_o,
@@ -337,7 +345,7 @@ module wb_interconnect #(
     assign m1_dat_o = (grant_valid && grant == 1'b1) ? rsp_dat : '0;
     assign m1_err_o = (grant_valid && grant == 1'b1) ? rsp_err : 1'b0;
 
-    wb_slave0 wb_slave0_i(
+    wb_mem wb_slave0_i(
         .clk(clk),
         .rst_n(rst_n),
         .wbs_adr_i(s0_adr_o),
@@ -365,8 +373,11 @@ module wb_interconnect #(
         .wbs_err_o(s1_err_i)
     );
 
-
-    wb_slave2 wb_slave2_i(
+// temp_mo erika
+    wb_slave2 #(
+      .AW(AW),
+      .DW(DW)
+     )(
         .clk(clk),
         .rst_n(rst_n),
         .wbs_adr_i(s2_adr_o),
@@ -377,7 +388,16 @@ module wb_interconnect #(
         .wbs_stb_i(s2_stb_o),
         .wbs_cyc_i(s2_cyc_o),
         .wbs_ack_o(s2_ack_i),
-        .wbs_err_o(s2_err_i)
+        .wbs_err_o(s2_err_i),
+        .temp_entrada (temp_sensor),    // input
+        .sensor_valid (sensor_valid),   // input
+        .alerta       (alerta),         // output
+        .calefactor   (calefactor),     // output
+        .ventilador   (ventilador),     // output
+        .estado_actual(estado_actual),  // debug
+        .cont_bajo    (cont_bajo),      // debug
+        .cont_alto    (cont_alto)       // debug
+
     );
 
     wb_slave3 wb_slave3_i(
@@ -417,3 +437,4 @@ module wb_interconnect #(
     );
 
 endmodule
+

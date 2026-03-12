@@ -1,0 +1,12 @@
+[submodule "external/monitoreo-de-temperatura"]
+	path = external/monitoreo-de-temperatura
+	url = git@github.com:ErikaGarciaR/monitoreo-de-temperatura.git
+[submodule "external/proyect_snd_cuatri"]
+	path = external/proyect_snd_cuatri
+	url = git@github.com:RamonEstradaM/proyect_snd_cuatri.git
+[submodule "third_party/monitoreo-de-temperatura"]
+	path = third_party/monitoreo-de-temperatura
+	url = https://github.com/user/monitoreo-de-temperatura
+[submodule "third_party/proyect_snd_cuatri"]
+	path = third_party/proyect_snd_cuatri
+	url = https://github.com/user/proyect_snd_cuatri
