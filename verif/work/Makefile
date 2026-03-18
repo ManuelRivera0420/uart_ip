@@ -1,4 +1,4 @@
-src=uart_ip
+src=wb_top_2master_debug
 testname=test
 verbosity=UVM_MEDIUM
 .DEFAULT_GOAL := help

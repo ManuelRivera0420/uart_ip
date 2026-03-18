@@ -35,7 +35,7 @@ module wb_interconnect #(
     parameter REG_SIZE = 16'h1000,    // 1 word
     // slave 2
     parameter WB2_BASE = 16'h2000,
-    parameter WB2_SIZE = 16'h1000     // 256 bytes (64 x 32-bit words)
+    parameter WB2_SIZE = 16'h1000,     // 256 bytes (64 x 32-bit words)
     // slave 3
     parameter S3_BASE = 16'h3000,
     parameter S3_SIZE = 16'h1000,
@@ -102,6 +102,7 @@ module wb_interconnect #(
     output logic           s2_stb_o,
     output logic           s2_cyc_o,
     input  logic           s2_ack_i,
+    input logic            s2_err_i,
     input  logic signed [10:0] temp_entrada, 
     input  logic               sensor_valid, 
     output logic               calefactor,   
@@ -119,7 +120,8 @@ module wb_interconnect #(
     output logic [3:0]     s3_sel_o,
     output logic           s3_stb_o,
     output logic           s3_cyc_o,
-    input  logic           s2_ack_i,
+    input  logic           s3_ack_i,
+    input logic            s3_err_i,
 
     // ---- Slave 4 (uart_tx_rx - manuel)
     output logic [AW-1:0] s4_adr_o,
@@ -130,6 +132,7 @@ module wb_interconnect #(
     output logic           s4_stb_o,
     output logic           s4_cyc_o,
     input  logic           s4_ack_i,
+    input logic            s4_err_i,
 
     // ---- Slave 5 (wb_gpio - leds/switches)
     output logic [AW-1:0] s5_adr_o,
@@ -139,8 +142,8 @@ module wb_interconnect #(
     output logic [3:0]     s5_sel_o,
     output logic           s5_stb_o,
     output logic           s5_cyc_o,
-    input  logic           s5_ack_i
-
+    input  logic           s5_ack_i,
+    input logic            s5_err_i
 );
 
     // ------------------------------------------------------------------
@@ -311,7 +314,7 @@ module wb_interconnect #(
     always_comb begin
         if (s5_hit) begin
             rsp_ack = s5_ack_i;
-            rsp_data = s5_dat_i;
+            rsp_dat = s5_dat_i;
             rsp_err = s5_err_i;
         end else if (s4_hit) begin
             rsp_ack = s4_ack_i;
@@ -344,97 +347,6 @@ module wb_interconnect #(
     assign m1_ack_o = (grant_valid && grant == 1'b1) ? rsp_ack : 1'b0;
     assign m1_dat_o = (grant_valid && grant == 1'b1) ? rsp_dat : '0;
     assign m1_err_o = (grant_valid && grant == 1'b1) ? rsp_err : 1'b0;
-
-    wb_mem wb_slave0_i(
-        .clk(clk),
-        .rst_n(rst_n),
-        .wbs_adr_i(s0_adr_o),
-        .wbs_dat_i(s0_dat_o),
-        .wbs_dat_o(s0_dat_i),
-        .wbs_we_i(s0_we_o),
-        .wbs_sel_i(s0_sel_o),
-        .wbs_stb_i(s0_stb_o),
-        .wbs_cyc_i(s0_cyc_o),
-        .wbs_ack_o(s0_ack_i),
-        .wbs_err_o(s0_err_i)
-    );
-
-    wb_slave1 wb_slave1_i(
-        .clk(clk),
-        .rst_n(rst_n),
-        .wbs_adr_i(s1_adr_o),
-        .wbs_dat_i(s1_dat_o),
-        .wbs_dat_o(s1_dat_i),
-        .wbs_we_i(s1_we_o),
-        .wbs_sel_i(s1_sel_o),
-        .wbs_stb_i(s1_stb_o),
-        .wbs_cyc_i(s1_cyc_o),
-        .wbs_ack_o(s1_ack_i),
-        .wbs_err_o(s1_err_i)
-    );
-
-// temp_mo erika
-    wb_slave2 #(
-      .AW(AW),
-      .DW(DW)
-     )(
-        .clk(clk),
-        .rst_n(rst_n),
-        .wbs_adr_i(s2_adr_o),
-        .wbs_dat_i(s2_dat_o),
-        .wbs_dat_o(s2_dat_i),
-        .wbs_we_i(s2_we_o),
-        .wbs_sel_i(s2_sel_o),
-        .wbs_stb_i(s2_stb_o),
-        .wbs_cyc_i(s2_cyc_o),
-        .wbs_ack_o(s2_ack_i),
-        .wbs_err_o(s2_err_i),
-        .temp_entrada (temp_sensor),    // input
-        .sensor_valid (sensor_valid),   // input
-        .alerta       (alerta),         // output
-        .calefactor   (calefactor),     // output
-        .ventilador   (ventilador),     // output
-        .estado_actual(estado_actual),  // debug
-        .cont_bajo    (cont_bajo),      // debug
-        .cont_alto    (cont_alto)       // debug
-
-    );
-
-    wb_slave3 wb_slave3_i(
-        .clk(clk),
-        .adr_i(s3_adr_o),
-        .dat_i(s3_dat_o),
-        .dat_o(s3_dat_i),
-        .we_i(s3_we_o),
-        .sel_i(s3_sel_o),
-        .stb_i(s3_stb_o),
-        .ack_o(s3_ack_i),
-        .cyc_i(s3_cyc_o)
-    );
-
-    wb_slave4 wb_slave4_i(
-        .clk(clk),
-        .adr_i(s4_adr_o),
-        .dat_i(s4_dat_o),
-        .dat_o(s4_dat_i),
-        .we_i(s4_we_o),
-        .sel_i(s4_sel_o),
-        .stb_i(s4_stb_o),
-        .ack_o(s4_ack_i),
-        .cyc_i(s4_cyc_o)
-    );
-
-    wb_slave5 wb_slave5_i(
-        .clk(clk),
-        .adr_i(s5_adr_o),
-        .dat_i(s5_dat_o),
-        .dat_o(s5_dat_i),
-        .we_i(s5_we_o),
-        .sel_i(s5_sel_o),
-        .stb_i(s5_stb_o),
-        .ack_o(s5_ack_i),
-        .cyc_i(s5_cyc_o)
-    );
 
 endmodule
 
