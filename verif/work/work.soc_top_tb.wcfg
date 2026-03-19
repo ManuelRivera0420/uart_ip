@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="work.soc_top_tb.wdb" id="1">
+         <top_modules>
+            <top_module name="riscv_params_pkg" />
+            <top_module name="soc_top_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="2,516.316 ns"></ZoomEndTime>
+      <Cursor1Time time="730.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="136"></NameColumnWidth>
+      <ValueColumnWidth column_width="60"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="66" />
+   <wvobject type="logic" fp_name="/soc_top_tb/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/arst_n">
+      <obj_property name="ElementShortName">arst_n</obj_property>
+      <obj_property name="ObjectShortName">arst_n</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/rsp_rdata_m1">
+      <obj_property name="ElementShortName">rsp_rdata_m1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rsp_rdata_m1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/rsp_valid_m1">
+      <obj_property name="ElementShortName">rsp_valid_m1</obj_property>
+      <obj_property name="ObjectShortName">rsp_valid_m1</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider71" type="divider">
+      <obj_property name="label">MASTER 0</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_master_m0_i/state">
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_master_m0_i/wbm_dat_o">
+      <obj_property name="ElementShortName">wbm_dat_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wbm_dat_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_master_m0_i/wbm_we_o">
+      <obj_property name="ElementShortName">wbm_we_o</obj_property>
+      <obj_property name="ObjectShortName">wbm_we_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider67" type="divider">
+      <obj_property name="label">MASTER 1</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_master_m1_i/state">
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_master_m1_i/wbm_dat_o">
+      <obj_property name="ElementShortName">wbm_dat_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wbm_dat_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_master_m1_i/wbm_we_o">
+      <obj_property name="ElementShortName">wbm_we_o</obj_property>
+      <obj_property name="ObjectShortName">wbm_we_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider20" type="divider">
+      <obj_property name="label">MICROPROCESSOR</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/microprocessor_top_i/instruction">
+      <obj_property name="ElementShortName">instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instruction[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/microprocessor_top_i/uc_out">
+      <obj_property name="ElementShortName">uc_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">uc_out[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/microprocessor_top_i/uc_out_valid">
+      <obj_property name="ElementShortName">uc_out_valid</obj_property>
+      <obj_property name="ObjectShortName">uc_out_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/microprocessor_top_i/uc_out_ready">
+      <obj_property name="ElementShortName">uc_out_ready</obj_property>
+      <obj_property name="ObjectShortName">uc_out_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider60" type="divider">
+      <obj_property name="label">CMD_FSM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/cmd_control_fsm_i/state">
+      <obj_property name="ElementShortName">state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">state[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/cmd_control_fsm_i/uc_data">
+      <obj_property name="ElementShortName">uc_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">uc_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/cmd_control_fsm_i/cmd_addr_fsm">
+      <obj_property name="ElementShortName">cmd_addr_fsm[15:0]</obj_property>
+      <obj_property name="ObjectShortName">cmd_addr_fsm[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/cmd_control_fsm_i/cmd_wdata_fsm">
+      <obj_property name="ElementShortName">cmd_wdata_fsm[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cmd_wdata_fsm[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/cmd_control_fsm_i/cmd_we_fsm">
+      <obj_property name="ElementShortName">cmd_we_fsm</obj_property>
+      <obj_property name="ObjectShortName">cmd_we_fsm</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/cmd_control_fsm_i/cmd_valid_fsm">
+      <obj_property name="ElementShortName">cmd_valid_fsm</obj_property>
+      <obj_property name="ObjectShortName">cmd_valid_fsm</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider5" type="divider">
+      <obj_property name="label">CMD_CONTROL</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/cmd_addr_m1">
+      <obj_property name="ElementShortName">cmd_addr_m1[15:0]</obj_property>
+      <obj_property name="ObjectShortName">cmd_addr_m1[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/cmd_wdata_m1">
+      <obj_property name="ElementShortName">cmd_wdata_m1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cmd_wdata_m1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/cmd_we_m1">
+      <obj_property name="ElementShortName">cmd_we_m1</obj_property>
+      <obj_property name="ObjectShortName">cmd_we_m1</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/cmd_valid_m1">
+      <obj_property name="ElementShortName">cmd_valid_m1</obj_property>
+      <obj_property name="ObjectShortName">cmd_valid_m1</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/cmd_ready_m1">
+      <obj_property name="ElementShortName">cmd_ready_m1</obj_property>
+      <obj_property name="ObjectShortName">cmd_ready_m1</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider11" type="divider">
+      <obj_property name="label">SLAVE 0</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave0_i/wbs_dat_o">
+      <obj_property name="ElementShortName">wbs_dat_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wbs_dat_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave0_i/wbs_we_i">
+      <obj_property name="ElementShortName">wbs_we_i</obj_property>
+      <obj_property name="ObjectShortName">wbs_we_i</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave0_i/wbs_ack_o">
+      <obj_property name="ElementShortName">wbs_ack_o</obj_property>
+      <obj_property name="ObjectShortName">wbs_ack_o</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave0_i/gpios_out">
+      <obj_property name="ElementShortName">gpios_out[7:0]</obj_property>
+      <obj_property name="ObjectShortName">gpios_out[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave0_i/leds_output">
+      <obj_property name="ElementShortName">leds_output[7:0]</obj_property>
+      <obj_property name="ObjectShortName">leds_output[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider27" type="divider">
+      <obj_property name="label">SLAVE 1</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave1_i/wbs_dat_o">
+      <obj_property name="ElementShortName">wbs_dat_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wbs_dat_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave0_i/wbs_we_i">
+      <obj_property name="ElementShortName">wbs_we_i</obj_property>
+      <obj_property name="ObjectShortName">wbs_we_i</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave1_i/wbs_ack_o">
+      <obj_property name="ElementShortName">wbs_ack_o</obj_property>
+      <obj_property name="ObjectShortName">wbs_ack_o</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave1_i/gpios_out">
+      <obj_property name="ElementShortName">gpios_out[7:0]</obj_property>
+      <obj_property name="ObjectShortName">gpios_out[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave1_i/leds_output">
+      <obj_property name="ElementShortName">leds_output[7:0]</obj_property>
+      <obj_property name="ObjectShortName">leds_output[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider37" type="divider">
+      <obj_property name="label">SLAVE 2</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave2_i/wbs_dat_o">
+      <obj_property name="ElementShortName">wbs_dat_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wbs_dat_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave2_i/wbs_we_i">
+      <obj_property name="ElementShortName">wbs_we_i</obj_property>
+      <obj_property name="ObjectShortName">wbs_we_i</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave2_i/wbs_ack_o">
+      <obj_property name="ElementShortName">wbs_ack_o</obj_property>
+      <obj_property name="ObjectShortName">wbs_ack_o</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave2_i/gpios_out">
+      <obj_property name="ElementShortName">gpios_out[7:0]</obj_property>
+      <obj_property name="ObjectShortName">gpios_out[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave2_i/leds_output">
+      <obj_property name="ElementShortName">leds_output[7:0]</obj_property>
+      <obj_property name="ObjectShortName">leds_output[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider49" type="divider">
+      <obj_property name="label">SLAVE 3</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave3_i/wbs_dat_o">
+      <obj_property name="ElementShortName">wbs_dat_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wbs_dat_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave3_i/wbs_we_i">
+      <obj_property name="ElementShortName">wbs_we_i</obj_property>
+      <obj_property name="ObjectShortName">wbs_we_i</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave3_i/wbs_ack_o">
+      <obj_property name="ElementShortName">wbs_ack_o</obj_property>
+      <obj_property name="ObjectShortName">wbs_ack_o</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave3_i/gpios_out">
+      <obj_property name="ElementShortName">gpios_out[7:0]</obj_property>
+      <obj_property name="ObjectShortName">gpios_out[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave3_i/leds_output">
+      <obj_property name="ElementShortName">leds_output[7:0]</obj_property>
+      <obj_property name="ObjectShortName">leds_output[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider55" type="divider">
+      <obj_property name="label">SLAVE 4</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave4_i/wbs_dat_o">
+      <obj_property name="ElementShortName">wbs_dat_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wbs_dat_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave4_i/wbs_we_i">
+      <obj_property name="ElementShortName">wbs_we_i</obj_property>
+      <obj_property name="ObjectShortName">wbs_we_i</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave4_i/wbs_ack_o">
+      <obj_property name="ElementShortName">wbs_ack_o</obj_property>
+      <obj_property name="ObjectShortName">wbs_ack_o</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave4_i/gpios_out">
+      <obj_property name="ElementShortName">gpios_out[7:0]</obj_property>
+      <obj_property name="ObjectShortName">gpios_out[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave4_i/leds_output">
+      <obj_property name="ElementShortName">leds_output[7:0]</obj_property>
+      <obj_property name="ObjectShortName">leds_output[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider61" type="divider">
+      <obj_property name="label">SLAVE 5</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave5_i/wbs_dat_o">
+      <obj_property name="ElementShortName">wbs_dat_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wbs_dat_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave5_i/wbs_we_i">
+      <obj_property name="ElementShortName">wbs_we_i</obj_property>
+      <obj_property name="ObjectShortName">wbs_we_i</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave5_i/wbs_ack_o">
+      <obj_property name="ElementShortName">wbs_ack_o</obj_property>
+      <obj_property name="ObjectShortName">wbs_ack_o</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave5_i/gpios_out">
+      <obj_property name="ElementShortName">gpios_out[7:0]</obj_property>
+      <obj_property name="ObjectShortName">gpios_out[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/soc_top_tb/soc_top_i/wb_top_2master_debug_i/wb_slave5_i/leds_output">
+      <obj_property name="ElementShortName">leds_output[7:0]</obj_property>
+      <obj_property name="ObjectShortName">leds_output[7:0]</obj_property>
+   </wvobject>
+</wave_config>

@@ -11,12 +11,12 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,195.519 ns"></ZoomEndTime>
-      <Cursor1Time time="210.000 ns"></Cursor1Time>
+      <ZoomEndTime time="3,290.001 ns"></ZoomEndTime>
+      <Cursor1Time time="190.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="162"></NameColumnWidth>
-      <ValueColumnWidth column_width="62"></ValueColumnWidth>
+      <NameColumnWidth column_width="160"></NameColumnWidth>
+      <ValueColumnWidth column_width="60"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="100" />
    <wvobject type="logic" fp_name="/wb_top_2master_debug_tb/clk">
@@ -130,6 +130,7 @@
    <wvobject type="array" fp_name="/wb_top_2master_debug_tb/dut/wb_slave0_i/leds_output">
       <obj_property name="ElementShortName">leds_output[7:0]</obj_property>
       <obj_property name="ObjectShortName">leds_output[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/wb_top_2master_debug_tb/dut/wb_slave0_i/gpios_out_reg">
       <obj_property name="ElementShortName">gpios_out_reg[7:0]</obj_property>
@@ -186,6 +187,7 @@
    <wvobject type="array" fp_name="/wb_top_2master_debug_tb/dut/wb_slave1_i/leds_output">
       <obj_property name="ElementShortName">leds_output[7:0]</obj_property>
       <obj_property name="ObjectShortName">leds_output[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/wb_top_2master_debug_tb/dut/wb_slave1_i/gpios_out_reg">
       <obj_property name="ElementShortName">gpios_out_reg[7:0]</obj_property>
@@ -242,6 +244,7 @@
    <wvobject type="array" fp_name="/wb_top_2master_debug_tb/dut/wb_slave2_i/leds_output">
       <obj_property name="ElementShortName">leds_output[7:0]</obj_property>
       <obj_property name="ObjectShortName">leds_output[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/wb_top_2master_debug_tb/dut/wb_slave2_i/gpios_out_reg">
       <obj_property name="ElementShortName">gpios_out_reg[7:0]</obj_property>
@@ -298,6 +301,7 @@
    <wvobject type="array" fp_name="/wb_top_2master_debug_tb/dut/wb_slave3_i/leds_output">
       <obj_property name="ElementShortName">leds_output[7:0]</obj_property>
       <obj_property name="ObjectShortName">leds_output[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/wb_top_2master_debug_tb/dut/wb_slave3_i/gpios_out_reg">
       <obj_property name="ElementShortName">gpios_out_reg[7:0]</obj_property>
@@ -354,6 +358,7 @@
    <wvobject type="array" fp_name="/wb_top_2master_debug_tb/dut/wb_slave4_i/leds_output">
       <obj_property name="ElementShortName">leds_output[7:0]</obj_property>
       <obj_property name="ObjectShortName">leds_output[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/wb_top_2master_debug_tb/dut/wb_slave4_i/gpios_out_reg">
       <obj_property name="ElementShortName">gpios_out_reg[7:0]</obj_property>
@@ -410,6 +415,7 @@
    <wvobject type="array" fp_name="/wb_top_2master_debug_tb/dut/wb_slave5_i/leds_output">
       <obj_property name="ElementShortName">leds_output[7:0]</obj_property>
       <obj_property name="ObjectShortName">leds_output[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/wb_top_2master_debug_tb/dut/wb_slave5_i/gpios_out_reg">
       <obj_property name="ElementShortName">gpios_out_reg[7:0]</obj_property>

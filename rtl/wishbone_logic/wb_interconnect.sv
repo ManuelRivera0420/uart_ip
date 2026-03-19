@@ -29,22 +29,22 @@ module wb_interconnect #(
     parameter DW       = 32,
     // slave 0
     parameter MEM_BASE = 16'h0000,
-    parameter MEM_SIZE = 16'h1000,    // 1 KB
+    parameter MEM_SIZE = 16'h0200,    // 1 KB
     // slave 1
-    parameter REG_BASE = 16'h1000,
-    parameter REG_SIZE = 16'h1000,    // 1 word
+    parameter REG_BASE = 16'h0200,
+    parameter REG_SIZE = 16'h0200,    // 1 word
     // slave 2
-    parameter WB2_BASE = 16'h2000,
-    parameter WB2_SIZE = 16'h1000,     // 256 bytes (64 x 32-bit words)
+    parameter WB2_BASE = 16'h0400,
+    parameter WB2_SIZE = 16'h0200,     // 256 bytes (64 x 32-bit words)
     // slave 3
-    parameter S3_BASE = 16'h3000,
-    parameter S3_SIZE = 16'h1000,
+    parameter S3_BASE = 16'h0600,
+    parameter S3_SIZE = 16'h0200,
     // slave 4
-    parameter S4_BASE = 16'h4000,
-    parameter S4_SIZE = 16'h1000,
+    parameter S4_BASE = 16'h0800,
+    parameter S4_SIZE = 16'h0200,
     // slave 5
-    parameter S5_BASE = 16'h5000,
-    parameter S5_SIZE = 16'h1000
+    parameter S5_BASE = 16'h0A00,
+    parameter S5_SIZE = 16'h0200
 ) (
     input  logic         clk,
     input  logic         rst_n,

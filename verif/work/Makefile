@@ -1,4 +1,4 @@
-src=wb_top_2master_debug
+src=soc_top
 testname=test
 verbosity=UVM_MEDIUM
 .DEFAULT_GOAL := help
